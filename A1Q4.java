@@ -77,6 +77,10 @@ public class A1Q4{
 				}
 			}
 		}
+
+		System.out.println("\n deck");
+		printDeck(deck);
+		System.out.println("");
 	}
 
 	/**
@@ -129,42 +133,49 @@ public class A1Q4{
 
 // REPLACE THE BODY OF THIS METHOD WITH YOUR OWN IMPLEMENTATION
 		String[] ranks = {"2","3","4","5","6","7","8","9","10","J","Q","K","A"};
-
+		int[] places = {-1,-1};
 		for(String k : ranks){
 			Boolean x = true;
 
 			while (x){
-				int[] places = {-1,-1};
+
 
 				for (int i = 0; i< currentSize; i++) {
 					if(k.equals(deckOfCards[i].charAt(0))){
 						if(places[0] != -1){
 							places[1] = i;
-							deckOfCards[i] = null;
 							i = currentSize;
+							deckOfCards = popIt(deckOfCards, places);
 						}
 						else{
 							places[0] = i;
-							deckOfCards[i] = null;
 						}
 					}
 				}
 				x = false;
 			}
+
+
 		}
 
+
+		System.out.println("");
+	System.out.println(Arrays.toString(deckOfCards));
+	return (deckOfCards);
+
+
+	}
+
+	public static String[] popIt(String[] deck, int[] places){
+		int currentSize = deck.length;
 		for (int i = 0; i<currentSize; i++) {
-			if(deckOfCards[i] == null && ++i < currentSize){
-				deckOfCards[i] = deckOfCards[i+1];
-				deckOfCards[i+1] = null;
+			if((i == places[0] || i == places[1]) && ++i < currentSize){
+				deck = popFromArray(deck, i);
 				currentSize--;
 			}
 		}
 
-	System.out.println(deckOfCards.toString());
-	return (deckOfCards);
-
-
+		return deck;
 	}
 
 	/**
@@ -176,7 +187,8 @@ public class A1Q4{
 	private static int getValidInput(){
 
 // REPLACE THE BODY OF THIS METHOD WITH YOUR OWN IMPLEMENTATION
-		return 0;
+		int pos = sc.nextInt();
+		return pos;
 	}
 
 
@@ -215,20 +227,61 @@ public class A1Q4{
 				System.out.println("Your turn: \n");
 				System.out.println("your current deck of cards is: ");
 				printDeck(human);
+
+				System.out.println("Enter card position:");
+
+				int pos =getValidInput();
+				String item = dealer[pos-1];
+				dealer = popFromArray(dealer, pos-1);
+
+				System.out.println("");
+
+				System.out.println("I took your "+String.valueOf(pos)+" card.");
+
+				System.out.println("Here it is, " + item);
+
+				human = pushToArray(human, item);
+
+				System.out.println("");
+
+				printDeck(human);
+
+				waitForUserInput();
+
+				turn = 1;
 			}
 			else{
 				System.out.println("***********************************************************");
 				System.out.println("My turn\n");
-				cardIndex = rand.nextInt(0, dealer.length-1);
-				dealer = removeItem(dealer, cardIndex);
+				cardIndex = rand.nextInt(human.length-1);
 
+				String item = human[cardIndex];
+
+				dealer = pushToArray(dealer, item);
+				human = popFromArray(human, cardIndex);
+
+				System.out.println("I took your "+String.valueOf(cardIndex+1)+" card.");
+				System.out.println("");
+
+				turn = 0;
+
+			}
+
+			if(dealer.length == 0){
+				System.out.println("Ups. I do not have any more cards");
+				System.out.println("You lost! I, Robot, win");
+			}
+			else if(human.length == 0){
+				System.out.println("***********************************************************");
+				System.out.println("Ups. You do not have any more cards");
+				System.out.println("Congratulations! You, Human, win");
 			}
 			}
 
 	}
 
 	public String[] removeItem(String[] deckOfCards, int index){
-		int currentSize = cards.length;
+		int currentSize = deckOfCards.length;
 		deckOfCards[index] = null;
 
 		for (int i = index; i<currentSize; i++) {
@@ -242,17 +295,47 @@ public class A1Q4{
 		return deckOfCards;
 	}
 
-	private static void pushToArray(String[] oldArray, String pushData){
+	private static String[] pushToArray(String[] oldArray, String pushData){
 		int length = oldArray.length;
 		String[] newArray = new String[length+1];
 
 		int index = -1;
 
 		for (String val : oldArray){
-			newArray[index++] = val;
+			index++;
+			newArray[index] = val;
 		}
 
 		newArray[length] = pushData;
+
+		System.out.println("");
+		System.out.println("Old: " + Arrays.toString(oldArray));
+		System.out.println("New: " + Arrays.toString(newArray));
+		System.out.println("");
+
+		return newArray;
+	}
+
+	private static String[] popFromArray(String[] oldArray, int index){
+		int length = oldArray.length;
+		String[] newArray = new String[oldArray.length - 1];
+		int k = -1;
+
+		for(int i = 0; i < newArray.length; i++){
+			if(i == index){
+				k++;
+				newArray[i] = oldArray[k++];
+			}
+			else{
+				k++;
+				newArray[i] = oldArray[k];
+			}
+		}
+
+		System.out.println("");
+		System.out.println("Old: " + Arrays.toString(oldArray));
+		System.out.println("New: " + Arrays.toString(newArray));
+		System.out.println("");
 
 		return newArray;
 	}
