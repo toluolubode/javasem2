@@ -30,7 +30,11 @@ public class A1Q1 {
      */
 
     public static void main(String[] args) {
-      System.out.println(countPositive(new int[]{1,2,3,0,5,-6,9}));
+      int[] result= new int [args.length];
+      for (int i = 0; i < args.length; i++) {
+        result[i] = Integer.valueOf(args[i]);
+      }
+      System.out.println(countPositive(result));
 
     }
 }
