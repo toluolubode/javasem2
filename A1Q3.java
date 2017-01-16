@@ -25,19 +25,13 @@ public class A1Q3 {
 			return maxLength;
     }
 
- 	/**
-     * The main method of this program. Gets an array of
-     * strings as input parameter. The array is assumed to
-     * be non-null, and all the strings in the array are
-     * parsable as integer.
-     *
-     * The function prints out the longest run of consecutive
-     * identical integers parsed in args
-     * @param args space-separated list of strings parsable as integers
-	 */
 
  	public static void main(String[] args) {
-		System.out.println(getLongestRun(new int[]{}));
+		int[] result= new int [args.length];
+		for (int i = 0; i < args.length; i++) {
+			result[i] = Integer.valueOf(args[i]);
+		}
+		System.out.println(getLongestRun(result));
 
     }
 }

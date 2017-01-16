@@ -21,7 +21,11 @@ public class A1Q2 {
     }
 
  	public static void main(String[] args) {
-		System.out.println(hasTwoLengthRun(new int[]{0, 1, 2, 3, 4, 5, 5 }));
+		int[] result= new int [args.length];
+		for (int i = 0; i < (args.length); i++) {
+			result[i] = Integer.valueOf(args[i]);
+		}
+		System.out.println(hasTwoLengthRun(result));
 
     }
 }

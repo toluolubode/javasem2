@@ -18,17 +18,6 @@ public class A1Q1 {
       return counter;
     }
 
-    /**
-     * The main method of this program. Gets an array of
-     * strings as input parameter. The array is assumed to
-     * be non-null, and all the strings in the array are
-     * parsable as integer.
-     *
-     * The function prints out the number of positive
-     * integers parsed in args
-     * @param args space-separated list of strings parsable as integers
-     */
-
     public static void main(String[] args) {
       int[] result= new int [args.length];
       for (int i = 0; i < args.length; i++) {
