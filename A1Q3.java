@@ -11,16 +11,18 @@ public class A1Q3 {
     private static int getLongestRun(int[] elems) {
 			int i=1;
 			int maxLength= 1;
-			while (i< elems.length){
+			while (i< elems.length-1){
 				int length =1;
-				while (i<elems.length && elems[i]==elems[i-1]){
+				while (i<elems.length-1 && elems[i]==elems[i+1]){
 					length= length+1;
 					i=i+1;
 				if (length> maxLength) {
 					maxLength=length;
 				// i=i+1;
 				}
+
 				}
+        i+=1;
 			}
 			return maxLength;
     }
