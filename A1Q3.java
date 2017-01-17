@@ -9,11 +9,11 @@ public class A1Q3 {
      */
 
     private static int getLongestRun(int[] elems) {
-			int i=0;
+			int i=1;
 			int maxLength= 1;
 			while (i< elems.length){
 				int length =1;
-				while (i<elems.length && elems[i]==elems[i+1]){
+				while (i<elems.length && elems[i]==elems[i-1]){
 					length= length+1;
 					i=i+1;
 				if (length> maxLength) {
@@ -29,7 +29,7 @@ public class A1Q3 {
  	public static void main(String[] args) {
 		int[] result= new int [args.length];
 		for (int i = 0; i < args.length; i++) {
-			result[i] = Integer.valueOf(args[i]);
+			result[i] = Integer.parseInt(args[i]);
 		}
 		System.out.println(getLongestRun(result));
 

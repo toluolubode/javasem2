@@ -23,7 +23,7 @@ public class A1Q2 {
  	public static void main(String[] args) {
 		int[] result= new int [args.length];
 		for (int i = 0; i < args.length; i++) {
-			result[i] = Integer.valueOf(args[i]);
+			result[i] = Integer.parseInt(args[i]);
 		}
 		System.out.println(result.length);
 		System.out.println(hasTwoLengthRun(result));
