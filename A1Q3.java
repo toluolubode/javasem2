@@ -9,8 +9,8 @@ public class A1Q3 {
      */
 
     private static int getLongestRun(int[] elems) {
-			int i=1;
-			int maxLength= 1;
+			int i=0;
+			int maxLength= 0;
 			while (i< elems.length-1){
 				int length =1;
 				while (i<elems.length-1 && elems[i]==elems[i+1]){
