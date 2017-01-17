@@ -11,8 +11,8 @@ public class A1Q2 {
 
     private static boolean hasTwoLengthRun(int[] elems) {
 
-			for (int i=0; i<elems.length; i++ ) {
-				if (elems[i]==elems[i+1]) {
+			for (int i=1; i< elems.length; i++ ) {
+				if (elems[i]==elems[i-1]) {
 					return true;
 
 				}
@@ -22,9 +22,10 @@ public class A1Q2 {
 
  	public static void main(String[] args) {
 		int[] result= new int [args.length];
-		for (int i = 0; i < (args.length); i++) {
+		for (int i = 0; i < args.length; i++) {
 			result[i] = Integer.valueOf(args[i]);
 		}
+		System.out.println(result.length);
 		System.out.println(hasTwoLengthRun(result));
 
     }
