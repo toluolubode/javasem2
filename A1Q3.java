@@ -18,7 +18,7 @@ public class A1Q3 {
 					i=i+1;
 				if (length> maxLength) {
 					maxLength=length;
-				i=i+1;
+				// i=i+1;
 				}
 				}
 			}

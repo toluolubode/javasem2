@@ -25,7 +25,6 @@ public class A1Q2 {
 		for (int i = 0; i < args.length; i++) {
 			result[i] = Integer.parseInt(args[i]);
 		}
-		System.out.println(result.length);
 		System.out.println(hasTwoLengthRun(result));
 
     }
