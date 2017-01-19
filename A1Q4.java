@@ -12,6 +12,16 @@ import java.util.Arrays;
  *
  */
 
+ //Name: Ogunsanya Toluwani Damilola
+ //Student-No: 8677256
+ //Section: ITI1121-C
+ //ASSIGNMENT 1 Q4
+
+ //Name: Olubode Toluwanimi
+ //Student-No: 8696226
+ //Section: ITI1121-A
+ //ASSIGNMENT 1 Q4
+
 public class A1Q4{
 
     /**
@@ -78,7 +88,7 @@ public class A1Q4{
             }
         }
         deck = shuffle(deck);
-      
+
         System.out.println("\n");
     }
 
@@ -90,7 +100,9 @@ public class A1Q4{
     }
 
     private static void printDeck(String[] data){
-        System.out.println(Arrays.toString(data));
+        ArrayStringsTools a = new ArrayStringsTools();
+        a.printArray(data, data.length);
+        //System.out.println(Arrays.toString(data));
     }
 
     /**
@@ -491,6 +503,8 @@ public class A1Q4{
 
     public static void main(String[] args){
 
+        StudentInfo studentInfo = new StudentInfo();
+        studentInfo.display();
         A1Q4 game = new A1Q4();
 
         game.playGame();

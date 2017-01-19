@@ -6,6 +6,7 @@
  * @author Marcel Turcotte (turcotte@eecs.uottawa.ca)
  */
 
+
 public class StudentInfo {
 
     /**
@@ -18,16 +19,16 @@ public class StudentInfo {
 	System.out.println("************************************************************");
 	System.out.println("*Name: Toluwanimi Olubode                                  *");
 	System.out.println("*Student Number: 8696226                                   *");
-	System.out.println("*                                                          *");
-	System.out.println("*                                                          *");
+	System.out.println("*section-B                                                 *");
+	System.out.println("*Assignment 1                                              *");
 	System.out.println("************************************************************");
 	System.out.println();
 
   System.out.println("************************************************************");
-	System.out.println("*Name: Ogunsanya Toluwani                                                          *");
-	System.out.println("*Student Number: 8677256                                                          *");
-	System.out.println("*                                                          *");
-	System.out.println("*                                                          *");
+	System.out.println("*Name: Ogunsanya Toluwani                                  *");
+	System.out.println("*Student Number: 8677256                                   *");
+	System.out.println("*Section-C                                                 *");
+	System.out.println("*Assignment 1                                              *");
 	System.out.println("************************************************************");
 	System.out.println();
 

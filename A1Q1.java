@@ -1,3 +1,13 @@
+//Name: Ogunsanya Toluwani Damilola
+//Student-No: 8677256
+//Section: ITI1121-C
+//ASSIGNMENT 1 Q1
+
+//Name: Olubode Toluwanimi
+//Student-No: 8696226
+//Section: ITI1121-A
+//ASSIGNMENT 1 Q1
+
 public class A1Q1 {
 
     /**
@@ -19,6 +29,8 @@ public class A1Q1 {
     }
 
     public static void main(String[] args) {
+      StudentInfo studentInfo = new StudentInfo();
+      studentInfo.display();
       int[] result= new int [args.length];
       for (int i = 0; i < args.length; i++) {
         result[i] = Integer.parseInt(args[i]);
