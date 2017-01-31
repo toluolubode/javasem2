@@ -12,6 +12,16 @@ import java.util.Arrays;
  *
  */
 
+ //Name: Ogunsanya Toluwani Damilola
+ //Student-No: 8677256
+ //Section: ITI1121-C
+ //ASSIGNMENT 1 Q4
+
+ //Name: Olubode Toluwanimi
+ //Student-No: 8696226
+ //Section: ITI1121-A
+ //ASSIGNMENT 1 Q4
+
 public class A1Q4{
 
     /**
@@ -78,8 +88,7 @@ public class A1Q4{
             }
         }
         deck = shuffle(deck);
-        System.out.println("\n deck");
-        printDeck(deck);
+
         System.out.println("\n");
     }
 
@@ -91,7 +100,9 @@ public class A1Q4{
     }
 
     private static void printDeck(String[] data){
-        System.out.println(Arrays.toString(data));
+        ArrayStringsTools a = new ArrayStringsTools();
+        a.printArray(data, data.length);
+        //System.out.println(Arrays.toString(data));
     }
 
     /**
@@ -225,6 +236,8 @@ public class A1Q4{
 
         Random rand = new Random();
 
+        String[] ordinals={"st", "nd", "rd", "th"};
+
         String[][] tmp = dealCards(deck);
 
         String[] dealer=tmp[0];
@@ -262,7 +275,19 @@ public class A1Q4{
 
                 System.out.println("");
 
-                System.out.println("You asked for my "+String.valueOf(pos)+" card.");
+                int ord = 3;
+
+                if(pos == 3) {
+                  ord = 2;
+                }
+                else if(pos == 2){
+                  ord = 1;
+                }
+                else if(pos == 1){
+                  ord = 0;
+                }
+
+                System.out.println("You asked for my "+String.valueOf(pos)+ ordinals[ord] + " card.");
 
                 System.out.println("Here it is, " + item);
 
@@ -293,7 +318,20 @@ public class A1Q4{
 
                 dealer = removePairs(dealer);
 
-                System.out.println("I took your "+String.valueOf(cardIndex+1)+" card.");
+                int ord = 3;
+                int pos = cardIndex +1;
+
+                if(pos == 3) {
+                  ord = 2;
+                }
+                else if(pos == 2){
+                  ord = 1;
+                }
+                else if(pos == 1){
+                  ord = 0;
+                }
+
+                System.out.println("I took your "+String.valueOf(pos) + ordinals[ord]+" card.");
                 System.out.println("");
 
                 turn = 0;
@@ -465,6 +503,8 @@ public class A1Q4{
 
     public static void main(String[] args){
 
+        StudentInfo studentInfo = new StudentInfo();
+        studentInfo.display();
         A1Q4 game = new A1Q4();
 
         game.playGame();
