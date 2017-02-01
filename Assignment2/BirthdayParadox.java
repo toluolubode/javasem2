@@ -31,6 +31,14 @@ public class BirthdayParadox {
 
 // REPLACE THE BODY OF THIS METHOD WITH YOUR OWN IMPLEMENTATION
 
+		Statistics stats;
+		stats = new Statistics(numberOfRuns);
+
+		for (int i = 0; i< numberOfRuns; i++) {
+			stats.updateStatistics(oneRun(range));
+		}
+
+		return stats;
 	}
 
  	/**
@@ -47,6 +55,14 @@ public class BirthdayParadox {
  	private static int oneRun(int range){
 
 // REPLACE THE BODY OF THIS METHOD WITH YOUR OWN IMPLEMENTATION
+
+		int number;
+
+		number = generator.nextInt(range)+1;
+
+		System.out.println("RANDOM NUMBER: ", number);
+
+		return number;
 
 	}
 

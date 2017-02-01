@@ -6,7 +6,7 @@
  * average and the standard deviation for the data.
  *
  * <b> this class should not use classes such as Array,
- * Lists etc. </b> to store the data, only prinitive types
+ * Lists etc. </b> to store the data, only prinitive types 
  * and java arrays.
  *
  * @author gvj (gvj@eecs.uottawa.ca)
@@ -15,6 +15,8 @@
 public class Statistics {
 
 // ADD HERE INSTANCE VARIABLES DECLARATION
+  private static int[] data;
+  private static int position;
 
 	/**
      * Constructor.
@@ -24,6 +26,7 @@ public class Statistics {
  	public  Statistics(int numberOfRuns){
 
 // REPLACE THE BODY OF THIS METHOD WITH YOUR OWN IMPLEMENTATION
+    data = new int[numberOfRuns];
 
 	}
 
@@ -38,6 +41,7 @@ public class Statistics {
 	public void updateStatistics(int value){
 
 // REPLACE THE BODY OF THIS METHOD WITH YOUR OWN IMPLEMENTATION
+    data[position] = value;
 
 	}
 
@@ -49,7 +53,17 @@ public class Statistics {
 	public double average(){
 
 // REPLACE THE BODY OF THIS METHOD WITH YOUR OWN IMPLEMENTATION
+    int total = 0;
+    int len = data.length;
+    double average;
 
+    for (int val : data) {
+      total += val;
+    }
+
+    average = total/len;
+
+    return average;
 	}
 
 
