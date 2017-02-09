@@ -20,6 +20,8 @@ import java.lang.Math;//Used for squareroot and power
   private static int[] data;
   private static int position;
   private static int total;
+  private static int max = -1;
+  private static int min = -1;
 
 	/**
      * Constructor.
@@ -46,6 +48,17 @@ import java.lang.Math;//Used for squareroot and power
 // REPLACE THE BODY OF THIS METHOD WITH YOUR OWN IMPLEMENTATION
     data[position] = value;
     total+=value;
+
+    if(position == 0){
+      max = value;
+      min = value;
+    }
+    else if(value < min){
+      min = value;
+    }
+    else if(value > max){
+      max = value;
+    }
 
 	}
 
@@ -101,6 +114,8 @@ import java.lang.Math;//Used for squareroot and power
 	public String toString(){
 
 // REPLACE THE BODY OF THIS METHOD WITH YOUR OWN IMPLEMENTATION
+  return "We have run " + data.length + " experiments.\nthe minimum was " + min +
+  "\nthe maximum was " + max + "\nthe mean was " + average + "\nthe standard deviation is " + standardDeviation();
 
 	}
 
