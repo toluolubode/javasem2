@@ -16,6 +16,7 @@
 
 public class Statistics {
 
+
 // ADD HERE INSTANCE VARIABLES DECLARATION
 
   private static int[] data;
@@ -79,19 +80,14 @@ public class Statistics {
      * to the method updateStatistic
      */
 	public double standardDeviation(){
+    double sd=0;
       int len = data.length;
-    for(int i = 0; i < data.length; i++){
-      total += data[i]; //use this to sum the values
+    for(int i = 0; i < len; i++){
+      sd += Math.pow((data[i]-average()),2)/len;
     }
-    double mean= total/len;
+    double standardDeviation= Math.sqrt(sd);
 
-    for(int i = 0; i < data.length; i++){
-      total += data[i]; //use this to sum the values
-    }
-
-// REPLACE THE BODY OF THIS METHOD WITH YOUR OWN IMPLEMENTATION
-
-    return mean;
+    return standardDeviation;
 
 	}
 
