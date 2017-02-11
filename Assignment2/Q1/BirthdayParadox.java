@@ -80,6 +80,10 @@ public class BirthdayParadox {
 	public static void main(String[] args) {
 
 // REPLACE THE BODY OF THIS METHOD WITH YOUR OWN IMPLEMENTATION
+		StudentInfo ourInfo = new StudentInfo();
+
+		ourInfo.display();
+
 		System.out.println(runExperiments(365,1500000));
 
 	}
