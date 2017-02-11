@@ -1,0 +1,21 @@
+Structure:
+Q2/src/ => java files
+Q2/lib/ => jar files (ITI1121.jar, jcommon-1.0.23.jar and jfreechart-1.0.19.jar)
+Q2/class/ => compiled (class) files
+
+Compiling (from the directory "Q2")
+
+On windows:
+javac -cp lib/jfreechart-1.0.19.jar;lib/jcommon-1.0.23.jar;lib/ITI1121.jar -d classes src/*.java 
+
+On MacOS/Unix etc.
+javac -cp lib/jfreechart-1.0.19.jar:lib/jcommon-1.0.23.jar:lib/ITI1121.jar -d classes src/*.java 
+
+running
+
+On windows:
+java -cp classes;lib/* BirthdayParadox
+
+On MacOS/Unix etc.
+java -cp classes:lib/* BirthdayParadox
+
