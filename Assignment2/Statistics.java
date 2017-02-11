@@ -13,9 +13,10 @@
  *
  */
 public class Statistics {
+  import java.lang.Math; //Used for squareroot and power
 
 // ADD HERE INSTANCE VARIABLES DECLARATION
-import java.lang.Math;//Used for squareroot and powerqqe
+
 
   private static int[] data;
   private static int position;
