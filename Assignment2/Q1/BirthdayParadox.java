@@ -84,7 +84,7 @@ public class BirthdayParadox {
 
 		ourInfo.display();
 
-		System.out.println(runExperiments(365,1500000));
+		System.out.println(runExperiments(365,50));
 
 	}
 

@@ -82,8 +82,9 @@ public class Statistics {
 	public double standardDeviation(){
     double sd=0;
       int len = data.length;
+      double average= average();
     for(int i = 0; i < len; i++){
-      sd += Math.pow((data[i]-average()),2)/len;
+      sd += Math.pow((data[i]-average,2)/len;
     }
     double standardDeviation= Math.sqrt(sd);
 
