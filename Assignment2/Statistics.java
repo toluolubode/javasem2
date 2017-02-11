@@ -15,7 +15,7 @@
 public class Statistics {
 
 // ADD HERE INSTANCE VARIABLES DECLARATION
-import java.lang.Math;//Used for squareroot and power
+import java.lang.Math;//Used for squareroot and powerqqe
 
   private static int[] data;
   private static int position;
@@ -89,15 +89,12 @@ import java.lang.Math;//Used for squareroot and power
      * to the method updateStatistic
      */
 	public double standardDeviation(){
+    double sd=0;
       int len = data.length;
-    for(int i = 0; i < array.length; i++){
-      total += array[i]; //use this to sum the values
+    for(int i = 0; i < len; i++){
+      sd += Math.pow((data[i]-average),2)/len;
     }
-    double mean= total/len;
-
-    for(int i = 0; i < array.length; i++){
-      total += array[i]; //use this to sum the values
-    }
+    double standardDeviation= Math.sqrt(sd);
 
 // REPLACE THE BODY OF THIS METHOD WITH YOUR OWN IMPLEMENTATION
 
