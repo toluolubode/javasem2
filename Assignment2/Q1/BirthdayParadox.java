@@ -81,11 +81,18 @@ public class BirthdayParadox {
 
 // REPLACE THE BODY OF THIS METHOD WITH YOUR OWN IMPLEMENTATION
 		StudentInfo ourInfo = new StudentInfo();
-
+		int range;
+		int numberOfRuns;
 		ourInfo.display();
+		range = Integer.parseInt(args[0]);
+		numberOfRuns= Integer.parseInt(args[1]);
+		if (range==0 && numberOfRuns ) {
+			range=50;
+			numberOfRuns=365;
 
-		System.out.println(runExperiments(365,50));
+		}
+		System.out.println(runExperiments(range,numberOfRuns));
+		}
+
 
 	}
-
-}
