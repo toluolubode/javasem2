@@ -1,4 +1,4 @@
-/**
+ /**
  * The class  <b>BirthdayParadox</b> is used to
  * simulated the so-called Birthday paradox, and uses
  * the class <b>Statistics</b> to store the results of
@@ -33,10 +33,27 @@ public class BirthdayParadox {
 
 		Statistics stats;
 		stats = new Statistics(numberOfRuns);
+		int value;
 
 		for (int i = 0; i< numberOfRuns; i++) {
 			//System.out.println(i);
-			stats.updateStatistics(oneRun(range));
+			boolean found = false;
+			int[] data = new int[365];
+			int k = 0;
+
+			while(!found){
+				value = oneRun(range);
+				data[k] = value;
+				found = isPresent(data, value);
+
+				if(found){
+					//System.out.println("found");
+					stats.updateStatistics(k);
+				}
+				System.out.println(k);
+				k++;
+			}
+
 		}
 
 		System.out.println(stats);
@@ -68,6 +85,18 @@ public class BirthdayParadox {
 		return number;
 	}
 
+	public static boolean isPresent(int[] days, int value){
+
+		for(int i = 0; i < days.length; i++){
+			if (days[i] == value){
+				return true;
+			}
+		}
+
+		return false;
+
+	}
+
 
      /**
      * Main method. Runs the experiments numberOfRunstimes,
@@ -90,7 +119,8 @@ public class BirthdayParadox {
 		for (int i = 100; i<=10000; i+=100) {
 			//System.out.println("I: " + i);
 			Statistics a = runExperiments(i, 1000);
-			chart.addDataPoint(a.average(), a.standardDeviation(), 1);
+			chart.addDataPoint(a.standardDeviation(), a.standardDeviation(), a.standardDeviation());
+			chart.addPolynome(5);
 			a = null;
 		}
 

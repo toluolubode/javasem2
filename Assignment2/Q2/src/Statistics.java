@@ -22,6 +22,7 @@ public class Statistics {
   private int[] data;
   private int position;
   private int total;
+  private int numberOfRuns;
 
 
 	/**
@@ -33,6 +34,7 @@ public class Statistics {
 
 // REPLACE THE BODY OF THIS METHOD WITH YOUR OWN IMPLEMENTATION
     data = new int[numberOfRuns];
+    this.numberOfRuns = numberOfRuns;
 
 	}
 
@@ -46,10 +48,11 @@ public class Statistics {
      */
 	public void updateStatistics(int value){
 
-// REPLACE THE BODY OF THIS METHOD WITH YOUR OWN IMPLEMENTATION
-if(position < 1000){
-    data[position] = value;
-    position++;}
+    // REPLACE THE BODY OF THIS METHOD WITH YOUR OWN IMPLEMENTATION
+    if(position < numberOfRuns){
+        data[position] = value;
+        System.out.println("value: "+value);
+        position++;}
 
 	}
 
@@ -70,7 +73,7 @@ if(position < 1000){
      */
 	public double average(){
 
-// REPLACE THE BODY OF THIS METHOD WITH YOUR OWN IMPLEMENTATION
+    // REPLACE THE BODY OF THIS METHOD WITH YOUR OWN IMPLEMENTATION
     // int total = 0;
     int len = data.length;
     double average;
@@ -93,11 +96,15 @@ if(position < 1000){
      */
 	public double standardDeviation(){
     double sd=0;
-      int len = data.length;
+    int len = data.length;
+    double average = average();
+    double standardDeviation;
+
     for(int i = 0; i < len; i++){
-      sd += Math.pow((data[i]-average()),2)/len;
+      sd += Math.pow((data[i]-average),2);
     }
-    double standardDeviation= Math.sqrt(sd);
+
+    standardDeviation = Math.sqrt(sd/len);
 
     return standardDeviation;
 
