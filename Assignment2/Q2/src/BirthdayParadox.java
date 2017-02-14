@@ -47,11 +47,12 @@ public class BirthdayParadox {
 				found = isPresent(data, value);
 
 				if(found){
+					System.out.println(k);
 					//System.out.println("found");
 					stats.updateStatistics(k);
 				}
-				System.out.println(k);
-				k++;
+
+				k = k+1;
 			}
 
 		}
