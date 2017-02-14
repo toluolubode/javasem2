@@ -38,13 +38,14 @@ public class BirthdayParadox {
 		for (int i = 0; i< numberOfRuns; i++) {
 			//System.out.println(i);
 			boolean found = false;
-			int[] data = new int[365];
+			int[] data = new int[range];
 			int k = 0;
 
 			while(!found){
 				value = oneRun(range);
-				data[k] = value;
+
 				found = isPresent(data, value);
+				data[k] = value;
 
 				if(found){
 					System.out.println(k);
@@ -120,8 +121,9 @@ public class BirthdayParadox {
 		for (int i = 100; i<=10000; i+=100) {
 			//System.out.println("I: " + i);
 			Statistics a = runExperiments(i, 1000);
-			chart.addDataPoint(a.standardDeviation(), a.standardDeviation(), a.standardDeviation());
+			chart.addDataPoint(i, a.average(), a.standardDeviation());
 			chart.addPolynome(5);
+			chart.addPolynome(0.5);
 			a = null;
 		}
 

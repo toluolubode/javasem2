@@ -27,44 +27,76 @@ public class BirthdayParadox {
 	 * @return a reference to a Statistics instance that holds the result
 	 * of the experiment
      */
- 	public static Statistics runExperiments(int range, int numberOfRuns){
+		 public static Statistics runExperiments(int range, int numberOfRuns){
 
-// REPLACE THE BODY OF THIS METHOD WITH YOUR OWN IMPLEMENTATION
+	 // REPLACE THE BODY OF THIS METHOD WITH YOUR OWN IMPLEMENTATION
 
-		Statistics stats;
-		stats = new Statistics(numberOfRuns);
+	 		Statistics stats;
+	 		stats = new Statistics(numberOfRuns);
+	 		int value;
 
-		for (int i = 0; i< numberOfRuns; i++) {
-			stats.updateStatistics(oneRun(range));
-		}
+	 		for (int i = 0; i< numberOfRuns; i++) {
+	 			//System.out.println(i);
+	 			boolean found = false;
+	 			int[] data = new int[365];
+	 			int k = 0;
 
-		return stats;
-	}
+	 			while(!found){
+	 				value = oneRun(range);
+	 				data[k] = value;
+	 				found = isPresent(data, value);
 
- 	/**
-     * Runs a single experiment.
-     * The parameter range defines the size of the set from which
-     * the experiment is drawn
-     *
-     * @param range the size of the set from which random number are drawn
-     *
-	 * @return the number of random draw in the set that the method
-	 * used before drawing the same element for the second time
-     */
+	 				if(found){
+	 					System.out.println(k);
+	 					//System.out.println("found");
+	 					stats.updateStatistics(k);
+	 				}
 
- 	private static int oneRun(int range){
+	 				k = k+1;
+	 			}
 
-// REPLACE THE BODY OF THIS METHOD WITH YOUR OWN IMPLEMENTATION
+	 		}
 
-		int number;
+	 		System.out.println(stats);
 
-		number = generator.nextInt(range)+1;
+	 		return stats;
 
-		//System.out.println("RANDOM NUMBER: "+ number);
+	 	}
 
-		return number;
+	  	/**
+	      * Runs a single experiment.
+	      * The parameter range defines the size of the set from which
+	      * the experiment is drawn
+	      *
+	      * @param range the size of the set from which random number are drawn
+	      *
+	 	 * @return the number of random draw in the set that the method
+	 	 * used before drawing the same element for the second time
+	      */
 
-	}
+	  	private static int oneRun(int range){
+
+	 // REPLACE THE BODY OF THIS METHOD WITH YOUR OWN IMPLEMENTATION
+	 		int number;
+
+	 		number = generator.nextInt(range)+1;
+
+	 		//System.out.println("RANDOM NUMBER: "+ number);
+
+	 		return number;
+	 	}
+
+	 	public static boolean isPresent(int[] days, int value){
+
+	 		for(int i = 0; i < days.length; i++){
+	 			if (days[i] == value){
+	 				return true;
+	 			}
+	 		}
+
+	 		return false;
+
+	 	}
 
 
 	/**
@@ -81,12 +113,14 @@ public class BirthdayParadox {
 
 // REPLACE THE BODY OF THIS METHOD WITH YOUR OWN IMPLEMENTATION
 		StudentInfo ourInfo = new StudentInfo();
-		int range;
-		int numberOfRuns;
+		int range=0;
+		int numberOfRuns=0;
 		ourInfo.display();
-		range = Integer.parseInt(args[0]);
-		numberOfRuns= Integer.parseInt(args[1]);
-		if (range==0 && numberOfRuns ) {
+		if(args.length>0){
+			range = Integer.parseInt(args[0]);
+			numberOfRuns= Integer.parseInt(args[1]);
+		}
+		if (range==0 && numberOfRuns==0 ) {
 			range=50;
 			numberOfRuns=365;
 
