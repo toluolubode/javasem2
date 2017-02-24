@@ -32,6 +32,10 @@ public class GameModel {
 
 // ADD YOUR INSTANCE VARIABLES HERE
 
+    public static DotInfo[][] dots = new DotInfo[10][10];
+    public static int color;
+    public int[] colors = {COLOR_0, COLOR_1, COLOR_2, COLOR_3, COLOR_4, COLOR_5};
+
     /**
      * Constructor to initialize the model to a given size of board.
      * 
@@ -41,6 +45,7 @@ public class GameModel {
     public GameModel(int size) {
 
 // ADD YOUR CODE HERE
+        dots = new DotInfo[size][size];
 
     }
 
@@ -64,6 +69,7 @@ public class GameModel {
     public int getSize(){
 
 // ADD YOUR CODE HERE
+        return dots.length;
 
     }
 
@@ -79,6 +85,7 @@ public class GameModel {
     public int getColor(int i, int j){
 
 // ADD YOUR CODE HERE
+        return get(i,j).getColor();
 
     }
 
@@ -94,6 +101,7 @@ public class GameModel {
     public boolean isCaptured(int i, int j){
 
 // ADD YOUR CODE HERE
+        return get(i,j).isCaptured();
 
     }
 
@@ -108,6 +116,7 @@ public class GameModel {
     public void capture(int i, int j){
  
  // ADD YOUR CODE HERE
+        dots[i][j].setCaptured(true);
 
    }
 
@@ -132,6 +141,7 @@ public class GameModel {
     public void setCurrentSelectedColor(int val) {
 
 // ADD YOUR CODE HERE
+        color = colors[val];
 
     }
 
@@ -143,6 +153,7 @@ public class GameModel {
     public int getCurrentSelectedColor() {
 
 // ADD YOUR CODE HERE
+        return color;
 
     }
 
@@ -161,7 +172,7 @@ public class GameModel {
     public DotInfo get(int i, int j) {
 
 // ADD YOUR CODE HERE
-
+        return dots[i][j];
     }
 
 
@@ -184,6 +195,7 @@ public class GameModel {
     public boolean isFinished(){
 
 // ADD YOUR CODE HERE
+        
 
     }
 
@@ -196,6 +208,7 @@ public class GameModel {
     public String toString(){
 
 // ADD YOUR CODE HERE
+        return "A game of " + getSize();
 
     }
 }
