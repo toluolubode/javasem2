@@ -195,7 +195,7 @@ public class GameModel {
     public boolean isFinished(){
 
 // ADD YOUR CODE HERE
-        
+
 
     }
 
