@@ -33,6 +33,7 @@ public class GameModel {
 // ADD YOUR INSTANCE VARIABLES HERE
 
     public static DotInfo[][] dots = new DotInfo[10][10];
+    public static int steps = 0;
     public static int color;
     public int[] colors = {COLOR_0, COLOR_1, COLOR_2, COLOR_3, COLOR_4, COLOR_5};
 
@@ -129,6 +130,7 @@ public class GameModel {
     public int getNumberOfSteps(){
 
 // ADD YOUR CODE HERE
+        return steps;
 
     }
 
@@ -183,6 +185,7 @@ public class GameModel {
      public void step(){
 
 // ADD YOUR CODE HERE
+         steps++;
 
     }
  
@@ -196,8 +199,8 @@ public class GameModel {
 
 // ADD YOUR CODE HERE
 
-
     }
+
 
 
    /**

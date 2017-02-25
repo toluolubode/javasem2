@@ -3,10 +3,15 @@
  */
 public class MyStack implements Stack {
 
+    Object[] stack;
+    int index = 0;
 
+    public MyStack(int size){
+        stack = new Object[size];
+    }
     @Override
     public boolean isEmpty() {
-        return false;
+        return stack[0] == null;
     }
 
     @Override

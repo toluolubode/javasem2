@@ -1,3 +1,5 @@
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * The class <b>GameController</b> is the controller of the game. It has a method
@@ -11,6 +13,10 @@
 public class GameController implements ActionListener {
 
  // ADD YOUR INSTANCE VARIABLES HERE
+    private GameView gameView;
+    private GameModel gameModel;
+    private MyStack stack;
+    private static final int defaultSize = 12;
 
 
     /**
@@ -23,7 +29,19 @@ public class GameController implements ActionListener {
     public GameController(int size) {
 
 // ADD YOUR CODE HERE
+        stack = new MyStack(size);
+        gameModel = new GameModel(size);
+        gameView = new GameView(gameModel, GameController.this);
 
+        gameView.addListenerForQuitAndReset();
+
+    }
+    public GameController(){
+        stack = new MyStack(defaultSize);
+        gameModel = new GameModel(defaultSize);
+        gameView = new GameView(gameModel, GameController.this);
+
+        gameView.addListenerForQuitAndReset();
     }
 
     /**
@@ -32,6 +50,7 @@ public class GameController implements ActionListener {
     public void reset(){
 
 // ADD YOUR CODE HERE
+        gameModel.reset();
 
     }
 
@@ -45,6 +64,15 @@ public class GameController implements ActionListener {
     public void actionPerformed(ActionEvent e) {
 
 // ADD YOUR CODE HERE
+
+        String action = e.getActionCommand();
+
+        if(action.equals("RESET")){
+            reset();
+        }
+        else if(action.equals("QUIT")){
+            System.exit(0);
+        }
 
     }
 
@@ -60,8 +88,14 @@ public class GameController implements ActionListener {
     public void selectColor(int color){
 
 // ADD YOUR CODE HERE
+        if(gameModel.getCurrentSelectedColor() != color){
+            gameModel.setCurrentSelectedColor(color);
+            gameModel.step();
+        }
        
     }
+
+
 
 
 // ADD YOUR PRIVATE METHODS HERE
