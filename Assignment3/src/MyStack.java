@@ -1,31 +1,43 @@
+import java.util.ArrayList;
+
 /**
  * Created by tbee on 2/23/17.
  */
 public class MyStack implements Stack {
 
-    Object[] stack;
-    int index = 0;
+    ArrayList<Object> stack;
+    int index = -1;
 
-    public MyStack(int size){
-        stack = new Object[size];
+    public MyStack(){
+        stack = new ArrayList<>();
     }
     @Override
     public boolean isEmpty() {
-        return stack[0] == null;
+        return stack.size() == 0;
     }
 
     @Override
     public Object peek() {
-        return null;
+        if (index == -1){
+            return null;
+        }
+        return stack.get(index);
     }
 
     @Override
     public Object pop() {
-        return null;
+        if(index == 0){
+            return null;
+        }
+
+        Object o = stack.get(index);
+        stack.remove(index);
+        return o;
     }
 
     @Override
     public void push(Object element) {
-
+        stack.add(element);
+        index++;
     }
 }

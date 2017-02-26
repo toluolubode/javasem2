@@ -214,4 +214,8 @@ public class GameModel {
         return "A game of " + getSize();
 
     }
+
+    public DotInfo[][] getDots(){
+        return dots;
+    }
 }

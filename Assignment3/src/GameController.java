@@ -17,6 +17,7 @@ public class GameController implements ActionListener {
     private GameModel gameModel;
     private MyStack stack;
     private static final int defaultSize = 12;
+    private static int size;
 
 
     /**
@@ -29,7 +30,8 @@ public class GameController implements ActionListener {
     public GameController(int size) {
 
 // ADD YOUR CODE HERE
-        stack = new MyStack(size);
+        this.size = size;
+        stack = new MyStack();
         gameModel = new GameModel(size);
         gameView = new GameView(gameModel, GameController.this);
 
@@ -37,7 +39,7 @@ public class GameController implements ActionListener {
 
     }
     public GameController(){
-        stack = new MyStack(defaultSize);
+        stack = new MyStack();
         gameModel = new GameModel(defaultSize);
         gameView = new GameView(gameModel, GameController.this);
 
@@ -99,6 +101,27 @@ public class GameController implements ActionListener {
 
 
 // ADD YOUR PRIVATE METHODS HERE
+    private void captureDots(DotInfo dot){
+        MyStack stack = new MyStack();
+
+        DotInfo[][] dots = gameModel.getDots();
+
+        for (int i = 0; i < size; i++){
+            for (int j = 0; j< size; j++){
+                DotInfo o = dots[i][j];
+
+                if (o.isCaptured()){
+                    stack.push(o);
+                }
+            }
+        }
+
+        while (!stack.isEmpty()){
+            DotInfo d = (DotInfo) stack.pop();
+
+
+        }
+    }
 
 
 
