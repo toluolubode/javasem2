@@ -36,6 +36,7 @@ public class GameModel {
     public static int steps = 0;
     public static int color;
     public int[] colors = {COLOR_0, COLOR_1, COLOR_2, COLOR_3, COLOR_4, COLOR_5};
+    public boolean finished = false;
 
     /**
      * Constructor to initialize the model to a given size of board.
@@ -198,6 +199,7 @@ public class GameModel {
     public boolean isFinished(){
 
 // ADD YOUR CODE HERE
+        return finished;
 
     }
 

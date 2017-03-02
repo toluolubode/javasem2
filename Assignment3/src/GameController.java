@@ -15,7 +15,6 @@ public class GameController implements ActionListener {
  // ADD YOUR INSTANCE VARIABLES HERE
     private GameView gameView;
     private GameModel gameModel;
-    private MyStack stack;
     private static final int defaultSize = 12;
     private static int size;
 
@@ -31,7 +30,6 @@ public class GameController implements ActionListener {
 
 // ADD YOUR CODE HERE
         this.size = size;
-        stack = new MyStack();
         gameModel = new GameModel(size);
         gameView = new GameView(gameModel, GameController.this);
 
@@ -39,7 +37,6 @@ public class GameController implements ActionListener {
 
     }
     public GameController(){
-        stack = new MyStack();
         gameModel = new GameModel(defaultSize);
         gameView = new GameView(gameModel, GameController.this);
 
@@ -101,14 +98,14 @@ public class GameController implements ActionListener {
 
 
 // ADD YOUR PRIVATE METHODS HERE
-    private void captureDots(DotInfo dot){
+    private void captureDots(int newColor){
         MyStack stack = new MyStack();
 
-        DotInfo[][] dots = gameModel.getDots();
+
 
         for (int i = 0; i < size; i++){
             for (int j = 0; j< size; j++){
-                DotInfo o = dots[i][j];
+                DotInfo o = gameModel.get(i,j);
 
                 if (o.isCaptured()){
                     stack.push(o);
@@ -118,9 +115,47 @@ public class GameController implements ActionListener {
 
         while (!stack.isEmpty()){
             DotInfo d = (DotInfo) stack.pop();
+            int x = d.getX();
+            int y = d.getY();
+
+            for(int i = 0; i < 4; i++){
+                if(x<size-1){
+                    if(isSame(x+1,y, newColor)){
+                        stack.push(gameModel.get(x+1,y));
+                    }
+                }
+
+                if(x>0){
+                    if(isSame(x-1,y, newColor)){
+                        stack.push(gameModel.get(x-1,y));
+                    }
+                }
+
+                if(y < size-1){
+                    if(isSame(x,y+1, newColor)){
+                        stack.push(gameModel.get(x,y+1));
+                    }
+                }
+
+                if(y>0){
+                    if(isSame(x, y-1, newColor)){
+                        stack.push(gameModel.get(x,y-1));
+                    }
+                }
+            }
 
 
         }
+
+
+    }
+
+    private boolean isSame(int x, int y,int newColor){
+        if(newColor == gameModel.getColor(x,y)){
+            gameModel.get(x,y).setCaptured(true);
+            return true;
+        }
+        return false;
     }
 
 

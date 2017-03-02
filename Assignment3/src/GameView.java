@@ -17,6 +17,7 @@ public class GameView extends JFrame {
     private GameModel gameModel;
     private GameController gameController;
     private JButton reset, quit;
+    private JLabel steps;
 
     /**
      * Constructor used for initializing the Frame
@@ -35,6 +36,7 @@ public class GameView extends JFrame {
 
         reset = new JButton("RESET");
         quit = new JButton("QUIT");
+        steps = new JLabel("Number of steps: 0");
 
     }
 
@@ -45,6 +47,13 @@ public class GameView extends JFrame {
     public void update(){
 
 // ADD YOUR CODE HERE
+
+        steps.setText("Number of steps: " + gameModel.getNumberOfSteps());
+        for(int i = 0; i < gameModel.getSize(); i++){
+            for(int j = 0; j < gameModel.getSize(); j++){
+
+            }
+        }
 
     }
 

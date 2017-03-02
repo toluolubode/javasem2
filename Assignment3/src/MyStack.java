@@ -5,23 +5,23 @@ import java.util.ArrayList;
  */
 public class MyStack implements Stack {
 
-    ArrayList<Object> stack;
-    int index = -1;
+    Object[] stack;
+    int index = 0;
 
     public MyStack(){
-        stack = new ArrayList<>();
+        stack = new Object[1];
     }
     @Override
     public boolean isEmpty() {
-        return stack.size() == 0;
+        return stack[0] == null;
     }
 
     @Override
     public Object peek() {
-        if (index == -1){
+        if (index == 0){
             return null;
         }
-        return stack.get(index);
+        return stack[index];
     }
 
     @Override
@@ -30,14 +30,31 @@ public class MyStack implements Stack {
             return null;
         }
 
-        Object o = stack.get(index);
-        stack.remove(index);
+        Object o = stack[index-1];
+        stack[index-1] = null;
+        index--;
         return o;
     }
 
     @Override
     public void push(Object element) {
-        stack.add(element);
+        if(index >= stack.length){
+            resize();
+        }
+        stack[index] = element;
         index++;
+    }
+
+    public void resize(){
+        int length = stack.length +1;
+        Object[] newStack = new Object[length];
+        int index = 0;
+
+        for(Object i : stack){
+            newStack[index] = i;
+            index++;
+        }
+
+        this.stack = newStack;
     }
 }
