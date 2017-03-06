@@ -1,5 +1,10 @@
 // ADD YOUR IMPORTS HERE
 
+import javax.imageio.ImageIO;
+import javax.swing.*;
+import java.awt.*;
+import java.io.IOException;
+
 /**
  * In the application <b>FloodIt</b>, a <b>DotButton</b> is a specialized color of
  * <b>JButton</b> that represents a dot in the game. It can have one of six colors
@@ -25,6 +30,8 @@ public class DotButton extends JButton {
 
 
 // ADD YOUR INSTANCE VARIABLES HERE
+    private int row, column, color, iconSize;
+    private String[] balls = {"data/S/ball-0.png", "data/S/ball-1.png", "data/S/ball-2.png", "data/S/ball-3.png", "data/S/ball-4.png", "data/S/ball-5.png"};
 
 
     /**
@@ -43,6 +50,21 @@ public class DotButton extends JButton {
     public DotButton(int row, int column, int color, int iconSize) {
 
 // ADD YOUR CODE HERE
+        this.row = row;
+        this.column = column;
+        this.color = color;
+        this.iconSize = iconSize;
+
+        setBackground(Color.WHITE);
+
+        try {
+            Image image = ImageIO.read(getClass().getResource(balls[color]));
+            setIcon(new ImageIcon(image));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+
 
    }
 
@@ -58,6 +80,17 @@ public class DotButton extends JButton {
     public DotButton(int color, int iconSize) {
 
 // ADD YOUR CODE HERE
+        this.color = color;
+        this.iconSize = iconSize;
+
+        setBackground(Color.WHITE);
+
+        try {
+            Image image = ImageIO.read(getClass().getResource(balls[color]));
+            setIcon(new ImageIcon(image));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
  
@@ -73,6 +106,7 @@ public class DotButton extends JButton {
     public void setColor(int color) {
 
 // ADD YOUR CODE HERE
+        this.color = color;
 
    }
 
@@ -84,6 +118,7 @@ public class DotButton extends JButton {
     public int getColor(){
 
 // ADD YOUR CODE HERE
+        return this.color;
 
     }
  
@@ -96,7 +131,7 @@ public class DotButton extends JButton {
     public int getRow() {
 
 // ADD YOUR CODE HERE
-
+        return this.row;
     }
 
     /**
@@ -108,6 +143,7 @@ public class DotButton extends JButton {
     public int getColumn() {
 
 // ADD YOUR CODE HERE
+        return this.column;
 
     }
 

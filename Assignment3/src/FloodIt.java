@@ -20,6 +20,8 @@ public class FloodIt {
 
 // ADD YOUR CODE HERE
 
+         GameController controller = new GameController(25);
+
    }
 
 

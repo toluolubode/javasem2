@@ -11,8 +11,8 @@ public class DotInfo {
 
 // ADD YOUR INSTANCE VARIABLES HERE
 
-    private static int x, y, color;
-    private static boolean captured;
+    private int x, y, color;
+    private boolean captured;
 
 
 
@@ -94,6 +94,10 @@ public class DotInfo {
 // ADD YOUR CODE HERE
         return color;
 
+    }
+
+    public String toString(){
+        return "x: " + getX() + " y: " + getY() + " color: " + getColor();
     }
 
  }

@@ -2,6 +2,11 @@
 
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+
+import java.awt.*;
+
+import static java.awt.BorderLayout.*;
 
 /**
  * The class <b>GameView</b> provides the current view of the entire Game. It extends
@@ -18,6 +23,8 @@ public class GameView extends JFrame {
     private GameController gameController;
     private JButton reset, quit;
     private JLabel steps;
+    private DotButton[][] dotButtons;
+    private JPanel boardPanel, selectBoard, settingsPanel;
 
     /**
      * Constructor used for initializing the Frame
@@ -34,9 +41,43 @@ public class GameView extends JFrame {
         this.gameModel = model;
         this.gameController= gameController;
 
+        dotButtons = new DotButton[model.getSize()][model.getSize()];
+
+
         reset = new JButton("RESET");
         quit = new JButton("QUIT");
         steps = new JLabel("Number of steps: 0");
+
+        boardPanel = new JPanel(new GridLayout(gameModel.getSize(), gameModel.getSize()));
+
+        selectBoard = new JPanel(new GridLayout(1, gameModel.getSize()));
+        selectBoard.setBorder(BorderFactory.createLineBorder(Color.black));
+        selectBoard.setBorder(new EmptyBorder(10,10,10,10));
+
+        settingsPanel = new JPanel();
+
+        for(int i = 0; i < 6; i++){
+            selectBoard.add(new DotButton(i,1));
+        }
+
+        settingsPanel.add(steps, WEST);
+        settingsPanel.add(reset, CENTER);
+        settingsPanel.add(quit,EAST);
+
+        update();
+
+
+        setSize(300,300);
+
+
+        add(boardPanel, NORTH);
+        add(selectBoard, CENTER);
+        //add(quit);
+        add(settingsPanel, SOUTH);
+
+        pack();
+
+        setVisible(true);
 
     }
 
@@ -47,13 +88,16 @@ public class GameView extends JFrame {
     public void update(){
 
 // ADD YOUR CODE HERE
-
-        steps.setText("Number of steps: " + gameModel.getNumberOfSteps());
         for(int i = 0; i < gameModel.getSize(); i++){
             for(int j = 0; j < gameModel.getSize(); j++){
+                DotButton a = new DotButton(i,j, gameModel.getColor(i,j), 1);
+                //System.out.println(i + " " + j + " COLR: " +gameModel.getColor(i,j));
+                boardPanel.add(a);
 
             }
         }
+
+
 
     }
 
@@ -61,6 +105,8 @@ public class GameView extends JFrame {
         reset.addActionListener(gameController);
         quit.addActionListener(gameController);
     }
+
+
 
 
 }

@@ -49,7 +49,7 @@ public class GameController implements ActionListener {
     public void reset(){
 
 // ADD YOUR CODE HERE
-        gameModel.reset();
+
 
     }
 
@@ -146,6 +146,8 @@ public class GameController implements ActionListener {
 
 
         }
+
+        gameView.update();
 
 
     }

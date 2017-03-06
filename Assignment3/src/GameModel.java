@@ -1,5 +1,7 @@
 // ADD YOUR IMPORTS HERE
 
+import java.util.Random;
+
 /**
  * The class <b>GameModel</b> holds the model, the state of the systems. 
  * It stores the followiung information:
@@ -32,7 +34,7 @@ public class GameModel {
 
 // ADD YOUR INSTANCE VARIABLES HERE
 
-    public static DotInfo[][] dots = new DotInfo[10][10];
+    public static DotInfo[][] dots;
     public static int steps = 0;
     public static int color;
     public int[] colors = {COLOR_0, COLOR_1, COLOR_2, COLOR_3, COLOR_4, COLOR_5};
@@ -48,6 +50,7 @@ public class GameModel {
 
 // ADD YOUR CODE HERE
         dots = new DotInfo[size][size];
+        initializeDotButtons();
 
     }
 
@@ -59,6 +62,7 @@ public class GameModel {
     public void reset(){
 
 // ADD YOUR CODE HERE
+        initializeDotButtons();
 
     }
 
@@ -87,6 +91,7 @@ public class GameModel {
     public int getColor(int i, int j){
 
 // ADD YOUR CODE HERE
+        //System.out.println(get(i,j).getColor());
         return get(i,j).getColor();
 
     }
@@ -175,6 +180,7 @@ public class GameModel {
     public DotInfo get(int i, int j) {
 
 // ADD YOUR CODE HERE
+        //System.out.println(dots[i][j]);
         return dots[i][j];
     }
 
@@ -219,5 +225,17 @@ public class GameModel {
 
     public DotInfo[][] getDots(){
         return dots;
+    }
+
+    public void initializeDotButtons(){
+
+        Random random = new Random();
+
+        for(int i = 0; i < dots.length; i++){
+            for(int j = 0; j < dots.length; j++){
+                dots[i][j] = new DotInfo(i,j,random.nextInt(6));
+                //System.out.println(i + " " + j + " COLR: " + dots[i][j].getColor());
+            }
+        }
     }
 }
