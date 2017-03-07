@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -115,6 +116,8 @@ public class GameController implements ActionListener {
             gameModel.step();
 
         }
+
+
        
     }
 
@@ -169,13 +172,20 @@ public class GameController implements ActionListener {
 
         }
 
-        gameView.update();
+        if(gameModel.isFinished()){
+            System.out.println("end");
+            end();
+        }
+        else {
 
-        selectColor(newColor);
+
+            gameView.update();
+
+            selectColor(newColor);
 
 
-        System.out.println("\n++++++++++++++++++++++++++++++++++++++++++++++++++");
-
+            System.out.println("\n++++++++++++++++++++++++++++++++++++++++++++++++++");
+        }
 
     }
 
@@ -194,6 +204,11 @@ public class GameController implements ActionListener {
         }
     }
 
+    private void end() {
+        JFrame options = new JFrame();
 
+        JOptionPane.showMessageDialog(options,"Game Over! Do you want to continue?");
+
+    }
 
 }
