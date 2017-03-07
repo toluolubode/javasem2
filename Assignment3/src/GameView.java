@@ -76,12 +76,12 @@ public class GameView extends JFrame {
 
         settingsPanel = new JPanel();
 
-        settingsPanel.add(redButton);
-        settingsPanel.add(blueButton);
-        settingsPanel.add(purpleButton);
-        settingsPanel.add(greyButton);
-        settingsPanel.add(yellowButton);
-        settingsPanel.add(greenButton);
+        selectBoard.add(redButton);
+        selectBoard.add(blueButton);
+        selectBoard.add(purpleButton);
+        selectBoard.add(greyButton);
+        selectBoard.add(yellowButton);
+        selectBoard.add(greenButton);
 
 
         settingsPanel.add(steps, WEST);
@@ -91,10 +91,11 @@ public class GameView extends JFrame {
         update();
 
 
-        setSize(300,300);
+        setSize(1000,1000);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 
-        //add(boardPanel, NORTH);
+        add(boardPanel, NORTH);
         add(selectBoard, CENTER);
         //add(quit);
         add(settingsPanel, SOUTH);
@@ -117,7 +118,7 @@ public class GameView extends JFrame {
         int size = gameModel.getSize();
 
 
-
+        remove(boardPanel);
         boardPanel = new JPanel(new GridLayout(size,size));
 
         for(int i = 0; i < size; i++){
