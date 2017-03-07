@@ -35,6 +35,8 @@ public class GameController implements ActionListener {
 
         gameView.addListenerForQuitAndReset();
 
+        captureDots(gameModel.getColor(0,0));
+
     }
     public GameController(){
         gameModel = new GameModel(defaultSize);
@@ -49,6 +51,8 @@ public class GameController implements ActionListener {
     public void reset(){
 
 // ADD YOUR CODE HERE
+        gameModel.reset();
+        gameView.update();
 
 
     }
@@ -72,6 +76,25 @@ public class GameController implements ActionListener {
         else if(action.equals("QUIT")){
             System.exit(0);
         }
+        else if(action.equals("0")){
+            captureDots(0);
+        }
+        else if(action.equals("1")){
+            captureDots(1);
+        }
+        else if(action.equals("2")){
+            captureDots(2);
+
+        }
+        else if(action.equals("3")){
+            captureDots(3);
+        }
+        else if(action.equals("4")){
+            captureDots(4);
+        }
+        else if(action.equals("5")){
+            captureDots(5);
+        }
 
     }
 
@@ -90,6 +113,7 @@ public class GameController implements ActionListener {
         if(gameModel.getCurrentSelectedColor() != color){
             gameModel.setCurrentSelectedColor(color);
             gameModel.step();
+
         }
        
     }
@@ -101,17 +125,23 @@ public class GameController implements ActionListener {
     private void captureDots(int newColor){
         MyStack stack = new MyStack();
 
+        System.out.println("stacked");
+
+
 
 
         for (int i = 0; i < size; i++){
             for (int j = 0; j< size; j++){
-                DotInfo o = gameModel.get(i,j);
 
-                if (o.isCaptured()){
-                    stack.push(o);
+
+                if (gameModel.get(i,j).isCaptured()){
+                    gameModel.get(i,j).setColor(newColor);
+                    stack.push(gameModel.get(i,j));
+                    //s++;
                 }
             }
         }
+        //System.out.println(s);
 
         while (!stack.isEmpty()){
             DotInfo d = (DotInfo) stack.pop();
@@ -120,44 +150,48 @@ public class GameController implements ActionListener {
 
             for(int i = 0; i < 4; i++){
                 if(x<size-1){
-                    if(isSame(x+1,y, newColor)){
-                        stack.push(gameModel.get(x+1,y));
-                    }
+                    isSame(x+1,y, newColor, stack);
+
                 }
 
                 if(x>0){
-                    if(isSame(x-1,y, newColor)){
-                        stack.push(gameModel.get(x-1,y));
-                    }
+                    isSame(x-1,y, newColor, stack);
                 }
 
                 if(y < size-1){
-                    if(isSame(x,y+1, newColor)){
-                        stack.push(gameModel.get(x,y+1));
-                    }
+                    isSame(x,y+1, newColor, stack);
                 }
 
                 if(y>0){
-                    if(isSame(x, y-1, newColor)){
-                        stack.push(gameModel.get(x,y-1));
-                    }
+                    isSame(x, y-1, newColor, stack);
                 }
             }
-
 
         }
 
         gameView.update();
 
+        selectColor(newColor);
+
+
+        System.out.println("\n++++++++++++++++++++++++++++++++++++++++++++++++++");
+
 
     }
 
-    private boolean isSame(int x, int y,int newColor){
-        if(newColor == gameModel.getColor(x,y)){
-            gameModel.get(x,y).setCaptured(true);
-            return true;
+    private void isSame(int x, int y,int newColor, MyStack stack){
+        //System.out.println("before: " + gameModel.get(x,y));
+        if(gameModel.get(x,y).isCaptured()){
+            gameModel.get(x,y).setColor(newColor);
         }
-        return false;
+        else if(newColor == gameModel.getColor(x,y)){
+            gameModel.get(x,y).setCaptured(true);
+            gameModel.get(x,y).setColor(newColor);
+            stack.push(gameModel.get(x,y));
+            System.out.println("after: " + gameModel.get(x,y));
+
+
+        }
     }
 
 

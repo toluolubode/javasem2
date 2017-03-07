@@ -96,6 +96,10 @@ public class DotInfo {
 
     }
 
+    public void setColor(int newColor){
+        this.color = newColor;
+    }
+
     public String toString(){
         return "x: " + getX() + " y: " + getY() + " color: " + getColor();
     }

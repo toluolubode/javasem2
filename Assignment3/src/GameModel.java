@@ -63,6 +63,7 @@ public class GameModel {
 
 // ADD YOUR CODE HERE
         initializeDotButtons();
+        steps = 0;
 
     }
 
@@ -234,6 +235,10 @@ public class GameModel {
         for(int i = 0; i < dots.length; i++){
             for(int j = 0; j < dots.length; j++){
                 dots[i][j] = new DotInfo(i,j,random.nextInt(6));
+
+                if(i == 0 && j == 0){
+                    dots[i][j].setCaptured(true);
+                }
                 //System.out.println(i + " " + j + " COLR: " + dots[i][j].getColor());
             }
         }

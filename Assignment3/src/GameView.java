@@ -21,7 +21,7 @@ public class GameView extends JFrame {
 // ADD YOUR INSTANCE VARIABLES HERE
     private GameModel gameModel;
     private GameController gameController;
-    private JButton reset, quit;
+    private JButton reset, quit, redButton, blueButton, yellowButton, purpleButton, greyButton, greenButton;
     private JLabel steps;
     private DotButton[][] dotButtons;
     private JPanel boardPanel, selectBoard, settingsPanel;
@@ -54,11 +54,35 @@ public class GameView extends JFrame {
         selectBoard.setBorder(BorderFactory.createLineBorder(Color.black));
         selectBoard.setBorder(new EmptyBorder(10,10,10,10));
 
+        greenButton = new DotButton(3,0);
+        greenButton.setActionCommand("3");
+
+        yellowButton = new DotButton(1,0);
+        yellowButton.setActionCommand("1");
+
+        blueButton = new DotButton(2,0);
+        blueButton.setActionCommand("2");
+
+        purpleButton = new DotButton(4,0);;
+        purpleButton.setActionCommand("4");
+
+        greyButton = new DotButton(0,0);
+        greyButton.setActionCommand("0");
+
+        redButton = new DotButton(5,0);
+        redButton.setActionCommand("5");
+
+
+
         settingsPanel = new JPanel();
 
-        for(int i = 0; i < 6; i++){
-            selectBoard.add(new DotButton(i,1));
-        }
+        settingsPanel.add(redButton);
+        settingsPanel.add(blueButton);
+        settingsPanel.add(purpleButton);
+        settingsPanel.add(greyButton);
+        settingsPanel.add(yellowButton);
+        settingsPanel.add(greenButton);
+
 
         settingsPanel.add(steps, WEST);
         settingsPanel.add(reset, CENTER);
@@ -70,7 +94,7 @@ public class GameView extends JFrame {
         setSize(300,300);
 
 
-        add(boardPanel, NORTH);
+        //add(boardPanel, NORTH);
         add(selectBoard, CENTER);
         //add(quit);
         add(settingsPanel, SOUTH);
@@ -87,23 +111,43 @@ public class GameView extends JFrame {
 
     public void update(){
 
+
+
 // ADD YOUR CODE HERE
-        for(int i = 0; i < gameModel.getSize(); i++){
-            for(int j = 0; j < gameModel.getSize(); j++){
+        int size = gameModel.getSize();
+
+
+
+        boardPanel = new JPanel(new GridLayout(size,size));
+
+        for(int i = 0; i < size; i++){
+            for(int j = 0; j < size; j++){
                 DotButton a = new DotButton(i,j, gameModel.getColor(i,j), 1);
-                //System.out.println(i + " " + j + " COLR: " +gameModel.getColor(i,j));
+                //System.out.println("called");
+
                 boardPanel.add(a);
 
             }
         }
 
 
+        add(boardPanel, NORTH);
+        revalidate();
+
+        steps.setText("Number of steps: " + gameModel.getNumberOfSteps());
 
     }
 
     public void addListenerForQuitAndReset(){
         reset.addActionListener(gameController);
         quit.addActionListener(gameController);
+        greenButton.addActionListener(gameController);
+        yellowButton.addActionListener(gameController);
+        blueButton.addActionListener(gameController);
+        redButton.addActionListener(gameController);
+        purpleButton.addActionListener(gameController);
+        greyButton.addActionListener(gameController);
+
     }
 
 

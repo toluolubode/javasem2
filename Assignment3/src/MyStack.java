@@ -21,7 +21,7 @@ public class MyStack implements Stack {
         if (index == 0){
             return null;
         }
-        return stack[index];
+        return stack[index-1];
     }
 
     @Override
