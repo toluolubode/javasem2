@@ -117,14 +117,24 @@ public class GameView extends JFrame {
 // ADD YOUR CODE HERE
         int size = gameModel.getSize();
 
-
+        //replace the old boardPanel with new boardPanel with updated colors
         remove(boardPanel);
         boardPanel = new JPanel(new GridLayout(size,size));
 
         for(int i = 0; i < size; i++){
             for(int j = 0; j < size; j++){
-                DotButton a = new DotButton(i,j, gameModel.getColor(i,j), 1);
-                //System.out.println("called");
+
+                DotButton a;
+
+
+                if(gameModel.get(i,j).isCaptured()){
+                    //Set all captured dots to the same color
+                    a = new DotButton(i,j, gameModel.getCurrentSelectedColor(), 1);
+                }
+                else{
+                    a = new DotButton(i,j, gameModel.getColor(i,j), 1);
+                }
+
 
                 boardPanel.add(a);
 
