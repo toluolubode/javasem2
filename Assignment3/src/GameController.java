@@ -35,8 +35,6 @@ public class GameController implements ActionListener {
         gameModel = new GameModel(size);
         gameView = new GameView(gameModel, GameController.this);
 
-        gameView.addListenerForQuitAndReset();
-
         captureDots(gameModel.getColor(0,0));
 
     }
@@ -44,7 +42,7 @@ public class GameController implements ActionListener {
         gameModel = new GameModel(defaultSize);
         gameView = new GameView(gameModel, GameController.this);
 
-        gameView.addListenerForQuitAndReset();
+        captureDots(gameModel.getColor(0,0));
     }
 
     /**
@@ -55,6 +53,7 @@ public class GameController implements ActionListener {
 // ADD YOUR CODE HERE
         gameModel.reset();
         gameView.update();
+        counter = 0;
         captureDots(gameModel.getColor(0,0));
 
 
@@ -130,7 +129,11 @@ public class GameController implements ActionListener {
     }
 
 
-
+    /**
+     * Captures all dots surroundind
+     * already-captured dots
+     *
+     */
 
 // ADD YOUR PRIVATE METHODS HERE
     private void captureDots(int newColor){
@@ -184,6 +187,11 @@ public class GameController implements ActionListener {
 
     }
 
+    /**
+     * Checks if two dots have the same color
+     * It also captures them
+     *
+     */
     private void isSame(int x, int y,int newColor, MyStack stack){
         if(gameModel.get(x,y).isCaptured()){
             //gameModel.get(x,y).setColor(newColor);
@@ -196,6 +204,10 @@ public class GameController implements ActionListener {
         }
     }
 
+    /**
+     * Shows Messegae that game has
+     * finished
+     */
     private void end() {
         JFrame options = new JFrame();
 

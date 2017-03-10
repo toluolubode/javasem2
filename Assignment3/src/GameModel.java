@@ -64,6 +64,7 @@ public class GameModel {
 // ADD YOUR CODE HERE
         initializeDotButtons();
         steps = 0;
+        finished = false;
 
     }
 
@@ -230,9 +231,10 @@ public class GameModel {
 
     }
 
-    //public DotInfo[][] getDots(){
-        //return dots;
-    //}
+    /**
+     * Initialize colors on the board and store them
+     * in 2D-Array
+     */
 
     private void initializeDotButtons(){
 

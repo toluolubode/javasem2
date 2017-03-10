@@ -23,7 +23,6 @@ public class GameView extends JFrame {
     private GameController gameController;
     private JButton reset, quit, redButton, blueButton, yellowButton, purpleButton, greyButton, greenButton;
     private JLabel steps;
-    private DotButton[][] dotButtons;
     private JPanel boardPanel, selectBoard, settingsPanel;
 
     /**
@@ -40,8 +39,6 @@ public class GameView extends JFrame {
 // ADD YOUR CODE HERE
         this.gameModel = model;
         this.gameController= gameController;
-
-        dotButtons = new DotButton[model.getSize()][model.getSize()];
 
 
         reset = new JButton("RESET");
@@ -100,6 +97,8 @@ public class GameView extends JFrame {
         //add(quit);
         add(settingsPanel, SOUTH);
 
+        addListenerForQuitAndReset();
+
         pack();
 
         setVisible(true);
@@ -129,10 +128,10 @@ public class GameView extends JFrame {
 
                 if(gameModel.get(i,j).isCaptured()){
                     //Set all captured dots to the same color
-                    a = new DotButton(i,j, gameModel.getCurrentSelectedColor(), 1);
+                    a = new DotButton(i,j, gameModel.getCurrentSelectedColor(), gameModel.getSize());
                 }
                 else{
-                    a = new DotButton(i,j, gameModel.getColor(i,j), 1);
+                    a = new DotButton(i,j, gameModel.getColor(i,j), gameModel.getSize());
                 }
 
 
@@ -149,7 +148,13 @@ public class GameView extends JFrame {
 
     }
 
-    public void addListenerForQuitAndReset(){
+    /**
+     * Initialize listener for reset
+     * and quit button
+     *
+     */
+
+    private void addListenerForQuitAndReset(){
         reset.addActionListener(gameController);
         quit.addActionListener(gameController);
         greenButton.addActionListener(gameController);

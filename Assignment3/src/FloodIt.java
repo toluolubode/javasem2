@@ -19,8 +19,8 @@ public class FloodIt {
      public static void main(String[] args) {
 
 // ADD YOUR CODE HERE
-
-         GameController controller = new GameController(10);
+         StudentInfo.display();
+         GameController controller = new GameController(30);
 
    }
 
