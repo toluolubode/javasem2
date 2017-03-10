@@ -23,7 +23,6 @@ public class GameView extends JFrame {
     private GameController gameController;
     private JButton reset, quit, redButton, blueButton, yellowButton, purpleButton, greyButton, greenButton;
     private JLabel steps;
-    private DotButton[][] dotButtons;
     private JPanel boardPanel, selectBoard, settingsPanel;
 
     /**
@@ -40,8 +39,6 @@ public class GameView extends JFrame {
 // ADD YOUR CODE HERE
         this.gameModel = model;
         this.gameController= gameController;
-
-        dotButtons = new DotButton[model.getSize()][model.getSize()];
 
 
         reset = new JButton("RESET");
@@ -76,12 +73,12 @@ public class GameView extends JFrame {
 
         settingsPanel = new JPanel();
 
-        settingsPanel.add(redButton);
-        settingsPanel.add(blueButton);
-        settingsPanel.add(purpleButton);
-        settingsPanel.add(greyButton);
-        settingsPanel.add(yellowButton);
-        settingsPanel.add(greenButton);
+        selectBoard.add(redButton);
+        selectBoard.add(blueButton);
+        selectBoard.add(purpleButton);
+        selectBoard.add(greyButton);
+        selectBoard.add(yellowButton);
+        selectBoard.add(greenButton);
 
 
         settingsPanel.add(steps, WEST);
@@ -91,13 +88,16 @@ public class GameView extends JFrame {
         update();
 
 
-        setSize(300,300);
+        setSize(1000,1000);
+        setDefaultCloseOperation(EXIT_ON_CLOSE);
 
 
-        //add(boardPanel, NORTH);
+        add(boardPanel, NORTH);
         add(selectBoard, CENTER);
         //add(quit);
         add(settingsPanel, SOUTH);
+
+        addListenerForQuitAndReset();
 
         pack();
 
@@ -116,14 +116,24 @@ public class GameView extends JFrame {
 // ADD YOUR CODE HERE
         int size = gameModel.getSize();
 
-
-
+        //replace the old boardPanel with new boardPanel with updated colors
+        remove(boardPanel);
         boardPanel = new JPanel(new GridLayout(size,size));
 
         for(int i = 0; i < size; i++){
             for(int j = 0; j < size; j++){
-                DotButton a = new DotButton(i,j, gameModel.getColor(i,j), 1);
-                //System.out.println("called");
+
+                DotButton a;
+
+
+                if(gameModel.get(i,j).isCaptured()){
+                    //Set all captured dots to the same color
+                    a = new DotButton(i,j, gameModel.getCurrentSelectedColor(), gameModel.getSize());
+                }
+                else{
+                    a = new DotButton(i,j, gameModel.getColor(i,j), gameModel.getSize());
+                }
+
 
                 boardPanel.add(a);
 
@@ -138,7 +148,13 @@ public class GameView extends JFrame {
 
     }
 
-    public void addListenerForQuitAndReset(){
+    /**
+     * Initialize listener for reset
+     * and quit button
+     *
+     */
+
+    private void addListenerForQuitAndReset(){
         reset.addActionListener(gameController);
         quit.addActionListener(gameController);
         greenButton.addActionListener(gameController);

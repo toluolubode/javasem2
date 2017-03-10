@@ -31,8 +31,8 @@ public class DotButton extends JButton {
 
 // ADD YOUR INSTANCE VARIABLES HERE
     private int row, column, color, iconSize;
-    private String[] balls = {"data/S/ball-0.png", "data/S/ball-1.png", "data/S/ball-2.png", "data/S/ball-3.png", "data/S/ball-4.png", "data/S/ball-5.png"};
-
+    private String[] ballS = {"data/S/ball-0.png", "data/S/ball-1.png", "data/S/ball-2.png", "data/S/ball-3.png", "data/S/ball-4.png", "data/S/ball-5.png"};
+    private String[] ballM = {"data/M/ball-0.png", "data/M/ball-1.png", "data/M/ball-2.png", "data/M/ball-3.png", "data/M/ball-4.png", "data/M/ball-5.png"};
 
     /**
      * Constructor used for initializing a cell of a specified color.
@@ -57,14 +57,9 @@ public class DotButton extends JButton {
 
         setBackground(Color.WHITE);
 
-        try {
-            Image image = ImageIO.read(getClass().getResource(balls[color]));
-            setIcon(new ImageIcon(image));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Image image = getImage();
 
-
+        setIcon(new ImageIcon(image));
 
    }
 
@@ -85,12 +80,8 @@ public class DotButton extends JButton {
 
         setBackground(Color.WHITE);
 
-        try {
-            Image image = ImageIO.read(getClass().getResource(balls[color]));
-            setIcon(new ImageIcon(image));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Image image = getImage();
+        setIcon(new ImageIcon(image));
 
     }
  
@@ -149,6 +140,23 @@ public class DotButton extends JButton {
 
 
 // ADD YOUR PRIVATE METHODS HERE (IF USING ANY)
+    /*
+    This method returns an image, with a specific size, which will be place don the button
+     */
+    private Image getImage(){
+        Image image = null;
 
+        try {
+            if(iconSize > 25)
+                image = ImageIO.read(getClass().getResource(ballS[color]));
+            else
+                image = ImageIO.read(getClass().getResource(ballM[color]));
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return image;
+    }
 
 }

@@ -38,7 +38,7 @@ public class GameModel {
     public static int steps = 0;
     public static int color;
     public int[] colors = {COLOR_0, COLOR_1, COLOR_2, COLOR_3, COLOR_4, COLOR_5};
-    public boolean finished = false;
+    private static boolean finished = false;
 
     /**
      * Constructor to initialize the model to a given size of board.
@@ -64,6 +64,7 @@ public class GameModel {
 // ADD YOUR CODE HERE
         initializeDotButtons();
         steps = 0;
+        finished = false;
 
     }
 
@@ -193,7 +194,13 @@ public class GameModel {
      public void step(){
 
 // ADD YOUR CODE HERE
-         steps++;
+         if(steps < 23) {
+             steps++;
+         }
+         else{
+             finished = true;
+         }
+
 
     }
  
@@ -224,11 +231,12 @@ public class GameModel {
 
     }
 
-    public DotInfo[][] getDots(){
-        return dots;
-    }
+    /**
+     * Initialize colors on the board and store them
+     * in 2D-Array
+     */
 
-    public void initializeDotButtons(){
+    private void initializeDotButtons(){
 
         Random random = new Random();
 
