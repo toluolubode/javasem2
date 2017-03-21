@@ -58,8 +58,16 @@ public class GameView extends JFrame {
 
         for (int row = 0; row < gameModel.getSize(); row++) {
             for (int column = 0; column < gameModel.getSize(); column++) {
-                board[row][column] = new DotButton(row, column, gameModel.getColor(row,column), 
-                    (gameModel.getSize() < 26 ? DotButton.MEDIUM_SIZE : DotButton.SMALL_SIZE));
+                DotButton b;
+                if(gameModel.getSize()<26){
+                    b = new DotButton(row, column, gameModel.getColor(row,column), DotButton.MEDIUM_SIZE);
+                }
+                else{
+                    b = new DotButton(row, column, gameModel.getColor(row,column), DotButton.SMALL_SIZE);
+                }
+                //DotButton b = new DotButton(row, column, gameModel.getColor(row,column));
+                b.addActionListener(gameController);
+                board[row][column] = b;
                 panel.add(board[row][column]);
             }
         }

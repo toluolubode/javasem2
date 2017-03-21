@@ -83,6 +83,7 @@ public class DotButton extends JButton {
     	Border emptyBorder = BorderFactory.createEmptyBorder(0, 0, 0, 0);
     	setBorder(emptyBorder);
     	setBorderPainted(false);
+
     }
 
     public DotButton(int color, int iconSize) {
