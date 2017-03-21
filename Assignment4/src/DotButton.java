@@ -1,6 +1,7 @@
-import java.awt.Color;
-import java.awt.Dimension;
+import java.awt.*;
+import java.io.IOException;
 
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.BorderFactory;
@@ -98,9 +99,16 @@ public class DotButton extends JButton {
     private ImageIcon getImageIcon() {
 	
         String directory = (iconSize == SMALL_SIZE ? "S": (iconSize == MEDIUM_SIZE ? "M" : "N"));
+        Image image = null;
+        try {
 
         if (icons[iconSize][color] == null) {
-        	    icons[iconSize][color] = new ImageIcon("data/" + directory + "/ball-" + Integer.toString(color) + ".png");
+
+            image = ImageIO.read(getClass().getResource("data/" + directory + "/ball-" + Integer.toString(color) + ".png"));
+            icons[iconSize][color] = new ImageIcon(image);
+        }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
         return icons[iconSize][color];
     }

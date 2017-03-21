@@ -29,6 +29,9 @@ public class GameView extends JFrame {
     private GameController gameController;
 
     private JLabel scoreLabel;
+
+    private JButton redo, undo, settings;
+    private JPanel controlPanel;
     /**
      * Constructor used for initializing the Frame
      * 
