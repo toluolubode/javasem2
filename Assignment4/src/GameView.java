@@ -102,6 +102,19 @@ public class GameView extends JFrame {
         button.addActionListener(gameController);
         selectPanel.add(button);
 
+        controlPanel = new JPanel();
+        undo = new JButton("undo");
+        redo = new JButton("redo");
+        settings = new JButton("Settings");
+
+        controlPanel.add(undo);
+        controlPanel.add(redo);
+        controlPanel.add(settings);
+
+        controlPanel.setBackground(Color.WHITE);
+
+        add(controlPanel, BorderLayout.NORTH);
+
         JPanel control = new JPanel();
         control.setBackground(Color.WHITE);
         scoreLabel = new JLabel();

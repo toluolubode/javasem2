@@ -67,6 +67,15 @@ public class GameController implements ActionListener {
              } else if (clicked.getText().equals("Reset")){
                 reset();
              }
+             else if(clicked.getText().equals("redo")){
+
+            }
+            else if(clicked.getText().equals("undo")){
+
+            }
+            else if(clicked.getText().equals("Settings")){
+
+            }
         } 
     }
 
