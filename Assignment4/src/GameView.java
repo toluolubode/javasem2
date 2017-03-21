@@ -118,8 +118,13 @@ public class GameView extends JFrame {
 
         controlPanel = new JPanel();
         undo = new JButton("undo");
+        undo.addActionListener(gameController);
+
         redo = new JButton("redo");
+        redo.addActionListener(gameController);
+
         settings = new JButton("Settings");
+        settings.addActionListener(gameController);
 
         controlPanel.add(undo);
         controlPanel.add(redo);
@@ -167,6 +172,9 @@ public class GameView extends JFrame {
         }
         if(gameModel.getNumberOfSteps() >= 1) {
             scoreLabel.setText("Number of steps: " + gameModel.getNumberOfSteps());
+        }
+        else if(gameModel.getNumberOfSteps()==-1){
+            scoreLabel.setText("Select initial color");
         }
         else {
             scoreLabel.setText("Number of steps: 0");

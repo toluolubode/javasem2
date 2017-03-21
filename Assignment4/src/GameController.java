@@ -1,3 +1,4 @@
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.LinkedList;
@@ -24,8 +25,9 @@ public class GameController implements ActionListener {
      * Reference to the model of the game
      */
     private GameModel gameModel;
+    private boolean orthogonal, diagonal, plane, torus;
     private boolean inc = false;
- 
+
     /**
      * Constructor used for initializing the controller. It creates the game's view 
      * and the game's model instances
@@ -34,6 +36,9 @@ public class GameController implements ActionListener {
      *            the size of the board on which the game will be played
      */
     public GameController(int size) {
+        orthogonal=plane=true;
+        diagonal=torus=false;
+
         gameModel = new GameModel(size);
         gameView = new GameView(gameModel, this);
         //flood();
@@ -44,7 +49,6 @@ public class GameController implements ActionListener {
      * resets the game
      */
     public void reset(){
-        inc = false;
         gameModel.reset();
         //flood();
         gameView.update();
@@ -79,7 +83,10 @@ public class GameController implements ActionListener {
 
 
             }
-            else selectColor(a.getColor());
+            else{
+                if(gameModel.getNumberOfSteps()>=0)
+                selectColor(a.getColor());
+            }
 
             //selectColor(a.getColor());
             //flood();
@@ -101,9 +108,33 @@ public class GameController implements ActionListener {
 
             }
             else if(clicked.getText().equals("Settings")){
-
+                openSettingsDialog();
             }
-        } 
+        }
+
+        else if (e.getSource() instanceof JRadioButton){
+            JRadioButton clicked = (JRadioButton)(e.getSource());
+
+            if(clicked.getText().equals("Plane") && clicked.isSelected()){
+                plane=true;
+                torus=false;
+            }
+            else if(clicked.getText().equals("Torus")){
+                plane=false;
+                torus=true;
+            }
+            else if(clicked.getText().equals("Orthogonal") && clicked.isSelected()){
+                orthogonal=true;
+                torus=false;
+            }
+            else if(clicked.getText().equals("Diagonal")){
+                orthogonal=false;
+                diagonal=true;
+            }
+
+            System.out.println(plane + "\n" + orthogonal);
+
+        }
     }
 
     /**
@@ -206,6 +237,63 @@ public class GameController implements ActionListener {
        gameModel.get(row,column).setCaptured(true);
        //flood();
        //gameView.update();
+    }
+
+    private void openSettingsDialog(){
+        JFrame frame = new JFrame();
+
+        JPanel settingsPanel = new JPanel();
+
+        JLabel play = new JLabel("Play on tortus or plane");
+
+        JRadioButton plane = new JRadioButton("Plane");
+        plane.setSelected(true);
+        plane.addActionListener(this);
+
+        JRadioButton tortus = new JRadioButton("Torus");
+        tortus.addActionListener(this);
+
+        JLabel moves = new JLabel("Diagonal moves?");
+
+        JRadioButton orthogonal = new JRadioButton("Orthogonal");
+        orthogonal.setSelected(true);
+        orthogonal.addActionListener(this);
+
+        JRadioButton diagonal = new JRadioButton("Diagonal");
+        diagonal.addActionListener(this);
+
+        ButtonGroup playGroup = new ButtonGroup();
+        playGroup.add(plane);
+        playGroup.add(tortus);
+
+        ButtonGroup movesGroup = new ButtonGroup();
+        movesGroup.add(orthogonal);
+        movesGroup.add(diagonal);
+
+        JPanel top = new JPanel();
+        top.add(play, BorderLayout.NORTH);
+        top.add(plane, BorderLayout.CENTER);
+        top.add(tortus, BorderLayout.SOUTH);
+
+        JPanel bottom = new JPanel();
+        bottom.add(moves, BorderLayout.NORTH);
+        bottom.add(orthogonal, BorderLayout.CENTER);
+        bottom.add(diagonal, BorderLayout.SOUTH);
+
+        settingsPanel.add(top, BorderLayout.NORTH);
+        settingsPanel.add(bottom, BorderLayout.SOUTH);
+        /*settingsPanel.add(plane);
+        settingsPanel.add(tortus);
+
+        settingsPanel.add(moves);
+        settingsPanel.add(orthogonal);
+        settingsPanel.add(diagonal);*/
+
+        JOptionPane.showMessageDialog(frame, settingsPanel);
+
+
+
+
     }
 
 
