@@ -10,7 +10,7 @@ import static java.awt.BorderLayout.*;
 
 /**
  * The class <b>GameView</b> provides the current view of the entire Game. It extends
- * <b>JFrame</b> and lays out the actual game and 
+ * <b>JFrame</b> and lays out the actual game and
  * two instances of JButton. The action listener for the buttons is the controller.
  *
  * @author Guy-Vincent Jourdan, University of Ottawa
@@ -28,7 +28,7 @@ public class GameView extends JFrame {
 
     /**
      * Constructor used for initializing the Frame
-     * 
+     *
      * @param model
      *            the model of the game (already initialized)
      * @param gameController
@@ -91,7 +91,7 @@ public class GameView extends JFrame {
         update();
 
 
-        setSize(300,300);
+        setSize(1000,1000);
 
 
         //add(boardPanel, NORTH);
