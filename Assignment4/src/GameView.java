@@ -58,8 +58,22 @@ public class GameView extends JFrame {
 
         for (int row = 0; row < gameModel.getSize(); row++) {
             for (int column = 0; column < gameModel.getSize(); column++) {
-                board[row][column] = new DotButton(row, column, gameModel.getColor(row,column), 
-                    (gameModel.getSize() < 26 ? DotButton.MEDIUM_SIZE : DotButton.SMALL_SIZE));
+
+                DotButton b = null;
+                if(gameModel.getSize()<26){
+                    b = new DotButton(row, column, gameModel.getColor(row,column), DotButton.MEDIUM_SIZE);
+                }
+                else{
+                    b = new DotButton(row, column, gameModel.getColor(row,column), DotButton.SMALL_SIZE);
+                }
+
+                if(row == 0 && column == 0){
+                    gameModel.get(row, column).setCaptured(false);
+                }
+                //DotButton b = new DotButton(row, column, gameModel.getColor(row,column));
+                b.setActionCommand("boardButton");
+                b.addActionListener(gameController);
+                board[row][column] = b;
                 panel.add(board[row][column]);
             }
         }
@@ -102,9 +116,30 @@ public class GameView extends JFrame {
         button.addActionListener(gameController);
         selectPanel.add(button);
 
+        controlPanel = new JPanel();
+        undo = new JButton("undo");
+        undo.addActionListener(gameController);
+
+        redo = new JButton("redo");
+        redo.addActionListener(gameController);
+
+        settings = new JButton("Settings");
+        settings.addActionListener(gameController);
+
+        controlPanel.add(undo);
+        controlPanel.add(redo);
+        controlPanel.add(settings);
+
+        controlPanel.setBackground(Color.WHITE);
+
+        add(controlPanel, BorderLayout.NORTH);
+
         JPanel control = new JPanel();
         control.setBackground(Color.WHITE);
+
         scoreLabel = new JLabel();
+        scoreLabel.setText("Select initial color");
+
         control.add(scoreLabel);
         control.add(buttonReset);
         control.add(buttonExit);
@@ -131,11 +166,23 @@ public class GameView extends JFrame {
     public void update(){
         for(int i = 0; i < gameModel.getSize(); i++){
             for(int j = 0; j < gameModel.getSize(); j++){
+
                 board[i][j].setColor(gameModel.getColor(i,j));
             }
         }
-        scoreLabel.setText("Number of steps: " + gameModel.getNumberOfSteps());
+        if(gameModel.getNumberOfSteps() >= 1) {
+            scoreLabel.setText("Number of steps: " + gameModel.getNumberOfSteps());
+        }
+        else if(gameModel.getNumberOfSteps()==-1){
+            scoreLabel.setText("Select initial color");
+        }
+        else {
+            scoreLabel.setText("Number of steps: 0");
+
+        }
+
         repaint();
+
     }
 
 }
