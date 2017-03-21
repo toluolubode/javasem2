@@ -90,11 +90,10 @@ public class GameModel {
     	}
 
     	// initially, the top left DotInfo is captured        
-        currentSelectedColor = model[0][0].getColor();
-        model[0][0].setCaptured(true);
+        //currentSelectedColor = model[0][0].getColor();
 
-    	numberOfSteps = 0;
-        numberCaptured = 1;
+    	numberOfSteps = -1;
+        numberCaptured = 0;
     }
 
 

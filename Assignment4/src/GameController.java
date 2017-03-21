@@ -24,6 +24,7 @@ public class GameController implements ActionListener {
      * Reference to the model of the game
      */
     private GameModel gameModel;
+    private boolean inc = false;
  
     /**
      * Constructor used for initializing the controller. It creates the game's view 
@@ -35,16 +36,17 @@ public class GameController implements ActionListener {
     public GameController(int size) {
         gameModel = new GameModel(size);
         gameView = new GameView(gameModel, this);
-        flood();
-        gameView.update();
+        //flood();
+        //gameView.update();
     }
 
     /**
      * resets the game
      */
     public void reset(){
+        inc = false;
         gameModel.reset();
-        flood();
+        //flood();
         gameView.update();
     }
 
@@ -58,7 +60,32 @@ public class GameController implements ActionListener {
     public void actionPerformed(ActionEvent e) {
         
         if (e.getSource() instanceof DotButton) {
-            selectColor(((DotButton)(e.getSource())).getColor());
+
+            DotButton a = (DotButton)e.getSource();
+
+            if(e.getActionCommand().equals("boardButton")) {
+
+
+
+                if(gameModel.getNumberOfSteps()==-1 ){
+                    setCaptured(a.getRow(), a.getColumn());
+                    gameModel.setCurrentSelectedColor(a.getColor());
+                    flood();
+                    gameModel.step();
+                    gameView.update();
+                }
+                else
+                    selectColor(a.getColor());
+
+
+            }
+            else selectColor(a.getColor());
+
+            //selectColor(a.getColor());
+            //flood();
+            //gameView.update();
+
+
         } else if (e.getSource() instanceof JButton) {
             JButton clicked = (JButton)(e.getSource());
 
@@ -93,6 +120,8 @@ public class GameController implements ActionListener {
             gameModel.setCurrentSelectedColor(color);
             flood();
             gameModel.step();
+
+
             gameView.update();
 
             if(gameModel.isFinished()) {
@@ -133,6 +162,7 @@ public class GameController implements ActionListener {
 
         while(!stack.isEmpty()){
             DotInfo DotInfo = stack.pop();
+
             if((DotInfo.getX() > 0) && shouldBeCaptured (DotInfo.getX()-1, DotInfo.getY())) {
                 gameModel.capture(DotInfo.getX()-1, DotInfo.getY());
                 stack.push(gameModel.get(DotInfo.getX()-1, DotInfo.getY()));
@@ -170,6 +200,12 @@ public class GameController implements ActionListener {
         } else {
             return false;
         }
+    }
+
+    private void setCaptured(int row, int column){
+       gameModel.get(row,column).setCaptured(true);
+       //flood();
+       //gameView.update();
     }
 
 
