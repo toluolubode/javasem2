@@ -132,7 +132,7 @@ public class GameController implements ActionListener {
                 diagonal=true;
             }
 
-            System.out.println(plane + "\n" + orthogonal);
+            //System.out.println(plane + "\n" + orthogonal);
 
         }
     }
@@ -210,6 +210,11 @@ public class GameController implements ActionListener {
                 gameModel.capture(DotInfo.getX(), DotInfo.getY()+1);
                 stack.push(gameModel.get(DotInfo.getX(), DotInfo.getY()+1));
             }
+
+            if(torus){
+                torus(DotInfo,stack);
+                System.out.println("torus");
+            }
         }
     }
 
@@ -247,19 +252,21 @@ public class GameController implements ActionListener {
         JLabel play = new JLabel("Play on tortus or plane");
 
         JRadioButton plane = new JRadioButton("Plane");
-        plane.setSelected(true);
+        plane.setSelected(this.plane);
         plane.addActionListener(this);
 
         JRadioButton tortus = new JRadioButton("Torus");
+        tortus.setSelected(this.torus);
         tortus.addActionListener(this);
 
         JLabel moves = new JLabel("Diagonal moves?");
 
         JRadioButton orthogonal = new JRadioButton("Orthogonal");
-        orthogonal.setSelected(true);
+        orthogonal.setSelected(this.orthogonal);
         orthogonal.addActionListener(this);
 
         JRadioButton diagonal = new JRadioButton("Diagonal");
+        diagonal.setSelected(this.diagonal);
         diagonal.addActionListener(this);
 
         ButtonGroup playGroup = new ButtonGroup();
@@ -290,6 +297,36 @@ public class GameController implements ActionListener {
         settingsPanel.add(diagonal);*/
 
         JOptionPane.showMessageDialog(frame, settingsPanel);
+
+
+
+
+    }
+
+    public void torus(DotInfo DotInfo, Stack<DotInfo> stack){
+        int s = gameModel.getSize();
+
+        if((DotInfo.getX() == 0) && shouldBeCaptured (s-1, DotInfo.getY())) {
+            gameModel.capture(s-1, DotInfo.getY());
+            stack.push(gameModel.get(s-1, DotInfo.getY()));
+            System.out.println((s-1)+" "+DotInfo.getY());
+        }
+
+        if((DotInfo.getX() == s-1) && shouldBeCaptured (0, DotInfo.getY())) {
+            gameModel.capture(0, DotInfo.getY());
+            stack.push(gameModel.get(0, DotInfo.getY()));
+            System.out.println(0+" "+DotInfo.getY());
+        }
+        if((DotInfo.getY()==0) && shouldBeCaptured (DotInfo.getX(), s-1)) {
+            gameModel.capture(DotInfo.getX(), s-1);
+            stack.push(gameModel.get(DotInfo.getX(), s-1));
+            System.out.println(DotInfo.getX()+" "+(s-1));
+        }
+        if((DotInfo.getY() == s-1) && shouldBeCaptured (DotInfo.getX(), 0)) {
+            gameModel.capture(DotInfo.getX(), 0);
+            stack.push(gameModel.get(DotInfo.getX(), 0));
+            System.out.println(DotInfo.getX()+" "+0);
+        }
 
 
 
