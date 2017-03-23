@@ -182,7 +182,7 @@ public class GameController implements ActionListener {
      */
      private void flood() {
 
-        Stack<DotInfo> stack = new GenericArrayStack<DotInfo>(gameModel.getSize()*gameModel.getSize());
+        Stack<DotInfo> stack = new GenericLinkedStack<>(gameModel.getSize()*gameModel.getSize());
         for(int i =0; i < gameModel.getSize(); i++) {
            for(int j =0; j < gameModel.getSize(); j++) {
                 if(gameModel.isCaptured(i,j)) {
