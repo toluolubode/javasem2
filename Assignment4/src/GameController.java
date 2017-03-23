@@ -213,7 +213,12 @@ public class GameController implements ActionListener {
 
             if(torus){
                 torus(DotInfo,stack);
-                System.out.println("torus");
+
+            }
+
+            if(diagonal){
+                diagonal(DotInfo, stack);
+                System.out.println("diagonal");
             }
         }
     }
@@ -328,7 +333,83 @@ public class GameController implements ActionListener {
             System.out.println(DotInfo.getX()+" "+0);
         }
 
+    }
 
+    public void diagonal(DotInfo DotInfo, Stack<DotInfo> stack){
+        int s = gameModel.getSize();
+        int x = DotInfo.getX();
+        int y = DotInfo.getY();
+        if((DotInfo.getX()>0 && DotInfo.getX()<s-1) && (DotInfo.getY()>0 && DotInfo.getY()<s-1)){
+
+
+            if(shouldBeCaptured(x-1,y-1)){
+                gameModel.capture(x-1,y-1);
+                stack.push(gameModel.get(x-1,y-1));
+            }
+
+            if(shouldBeCaptured(x+1,y-1)){
+                gameModel.capture(x+1,y-1);
+                stack.push(gameModel.get(x+1,y-1));
+            }
+
+            if(shouldBeCaptured(x-1,y+1)){
+                gameModel.capture(x-1,y+1);
+                stack.push(gameModel.get(x-1,y+1));
+            }
+
+            if(shouldBeCaptured(x+1,y+1)){
+                gameModel.capture(x+1,y+1);
+                stack.push(gameModel.get(x+1,y+1));
+            }
+        }
+
+        if (x==0 && (y>0 && y<s-1)){
+            if(shouldBeCaptured(x+1,y+1)){
+                gameModel.capture(x+1,y-1);
+                stack.push(gameModel.get(x+1,y-1));
+            }
+
+            if(shouldBeCaptured(x+1,y-1)){
+                gameModel.capture(x+1,y-1);
+                stack.push(gameModel.get(x+1,y-1));
+            }
+        }
+
+        if (x==s-1 && (y>0 && y<s-1)){
+            if(shouldBeCaptured(x-1,y+1)){
+                gameModel.capture(x-1,y+1);
+                stack.push(gameModel.get(x-1,y+1));
+            }
+
+            if(shouldBeCaptured(x-1,y-1)){
+                gameModel.capture(x-1,y-1);
+                stack.push(gameModel.get(x-1,y-1));
+            }
+        }
+
+        if (y==0 && (x>0 && x<s-1)){
+            if(shouldBeCaptured(x+1,y+1)){
+                gameModel.capture(x+1,y+1);
+                stack.push(gameModel.get(x+1,y+1));
+            }
+
+            if(shouldBeCaptured(x-1,y+1)){
+                gameModel.capture(x-1,y+1);
+                stack.push(gameModel.get(x-1,y+1));
+            }
+        }
+
+        if (y==s-1 && (x>0 && x<s-1)){
+            if(shouldBeCaptured(x-1,y-1)){
+                gameModel.capture(x-1,y-1);
+                stack.push(gameModel.get(x-1,y-1));
+            }
+
+            if(shouldBeCaptured(x+1,y-1)){
+                gameModel.capture(x+1,y-1);
+                stack.push(gameModel.get(x+1,y-1));
+            }
+        }
 
 
     }
