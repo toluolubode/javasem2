@@ -27,6 +27,7 @@ public class GameController implements ActionListener {
     private GameModel gameModel;
     private boolean orthogonal, diagonal, plane, torus;
     private boolean inc = false;
+    private Stack<GameModel> cloneStack;
 
     /**
      * Constructor used for initializing the controller. It creates the game's view 
@@ -41,6 +42,8 @@ public class GameController implements ActionListener {
 
         gameModel = new GameModel(size);
         gameView = new GameView(gameModel, this);
+
+        //cloneStack = new GenericLinkedStack<>();
         //flood();
         //gameView.update();
     }

@@ -15,7 +15,7 @@ import java.util.Random;
  *
  * @author Guy-Vincent Jourdan, University of Ottawa
  */
-public class GameModel {
+public class GameModel implements Cloneable {
 
 
     /**
@@ -228,5 +228,10 @@ public class GameModel {
             b.append("\n");
         }
         return b.toString();
+    }
+
+    @Override
+    protected Object clone() throws CloneNotSupportedException{
+        return GameModel.this;
     }
 }
