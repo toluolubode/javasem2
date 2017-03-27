@@ -1,58 +1,3 @@
-<<<<<<< Updated upstream:Assignment4/src/GenericLinkedStack.java
-// public class GenericArrayStack<E> implements Stack<E> {
-//
-//     // E is the type of the elements of this stack.  The specific type
-//     // will specified when a reference is declared and a stack is
-//     // actually created. E.g.:
-//     //
-//     // Stack<Integer> nums;
-//     // nums = new GenericArrayStack<Integer>( 10 );
-//
-//     // Instance variables
-//
-//     private E[] elems; // Used to store the elements of this ArrayStack
-//     private int top; // Designates the first free cell
-//
-//     @SuppressWarnings( "unchecked" )
-//
-//     // Constructor
-//     public GenericArrayStack( int capacity ) {
-// 	elems = (E[]) new Object[ capacity ];
-// 	// elems = new E[ capacity ];
-// 	top = 0;
-//     }
-//
-//     // Returns true if this ArrayStack is empty
-//     public boolean isEmpty() {
-// 	return top == 0;
-//     }
-//
-//     public void push( E elem ) {
-// 	// pre-condition: ! isFull()
-//
-// 	elems[ top ] = elem;
-// 	top++;
-//
-//     }
-//     public E pop() {
-// 	// pre-condition: ! isEmpty()
-//
-// 	E saved;
-//
-// 	top--;
-// 	saved = elems[ top ];
-// 	elems[ top ] = null;
-//
-// 	return saved;
-//     }
-//
-//     public E peek() {
-// 	// pre-condition: ! isEmpty()
-//
-// 	return elems[ top-1 ];
-//     }
-// }
-
 public class GenericLinkedStack<E> implements Stack<E> {
 
     // E is the type of the elements of this stack.  The specific type
@@ -61,145 +6,56 @@ public class GenericLinkedStack<E> implements Stack<E> {
     //
     // Stack<Integer> nums;
     // nums = new GenericArrayStack<Integer>( 10 );
-    private static class Elem{}
-    // Instance variables
 
-    private E[] elems; // Used to store the elements of this ArrayStack
+
+    private Node store;
     private int top; // Designates the first free cell
     // Returns true if this ArrayStack is empty
-    public GenericLinkedStack(int capacity){
-        elems = (E[]) new Object[ capacity ];
-        // elems = new E[ capacity ];
-        top = 0;
+
+    private class Node{
+      private E item;
+      private Node next;
+    }
+      @SuppressWarnings( "unchecked" )
+
+    public GenericLinkedStack(){
+        store.item= null;
+        top= 0;
     }
     public boolean isEmpty() {
-        return top == 0;
+      if (store.item == null){
+        return false;
+      }
+        return true;
     }
 
-    public void push( E elem ) {
-        // pre-condition: ! isFull()
+    public void push( E elem ) throws EmptyStackException {
 
-        elems[ top ] = elem;
+        if (elem == null){
+          throw new EmptyStackException(elem)
+        }
+        Node b=n;
+        n= new Node();
+
+        n.item= elem;
+        n.next= b;
         top++;
-
     }
+
     public E pop() {
-        // pre-condition: ! isEmpty()
 
-        E saved;
+        E elem;
 
+        elem= n.item;
+        n=n.next;
         top--;
-        saved = elems[ top ];
-        elems[ top ] = null;
 
-        return saved;
+        return elem;
     }
 
     public E peek() {
         // pre-condition: ! isEmpty()
 
-        return elems[ top-1 ];
+        return n.item;
     }
 }
-=======
-// public class GenericArrayStack<E> implements Stack<E> {
-//
-//     // E is the type of the elements of this stack.  The specific type
-//     // will specified when a reference is declared and a stack is
-//     // actually created. E.g.:
-//     //
-//     // Stack<Integer> nums;
-//     // nums = new GenericArrayStack<Integer>( 10 );
-//
-//     // Instance variables
-//
-//     private E[] elems; // Used to store the elements of this ArrayStack
-//     private int top; // Designates the first free cell
-//
-//     @SuppressWarnings( "unchecked" )
-//
-//     // Constructor
-//     public GenericArrayStack( int capacity ) {
-// 	elems = (E[]) new Object[ capacity ];
-// 	// elems = new E[ capacity ];
-// 	top = 0;
-//     }
-//
-//     // Returns true if this ArrayStack is empty
-//     public boolean isEmpty() {
-// 	return top == 0;
-//     }
-//
-//     public void push( E elem ) {
-// 	// pre-condition: ! isFull()
-//
-// 	elems[ top ] = elem;
-// 	top++;
-//
-//     }
-//     public E pop() {
-// 	// pre-condition: ! isEmpty()
-//
-// 	E saved;
-//
-// 	top--;
-// 	saved = elems[ top ];
-// 	elems[ top ] = null;
-//
-// 	return saved;
-//     }
-//
-//     public E peek() {
-// 	// pre-condition: ! isEmpty()
-//
-// 	return elems[ top-1 ];
-//     }
-// }
-
-public class GenericLinkedStack<E> implements Stack<E> {
-
-    // E is the type of the elements of this stack.  The specific type
-    // will specified when a reference is declared and a stack is
-    // actually created. E.g.:
-    //
-    // Stack<Integer> nums;
-    // nums = new GenericArrayStack<Integer>( 10 );
-    private static class Elem{}
-    // Instance variables
-
-    private E[] elems; // Used to store the elements of this ArrayStack
-    private int top; // Designates the first free cell
-    // Returns true if this ArrayStack is empty
-    public LinkedStack(){
-      top==0;
-      elems==null;
-    }
-    public boolean isEmpty() {
-	return top == 0;
-    }
-
-    public void push( E elem ) {
-	// pre-condition: ! isFull()
-	elems[ top ] = elem;
-	top++;
-
-    }
-    public E pop() {
-	// pre-condition: ! isEmpty()
-
-	E saved;
-
-	top--;
-	saved = elems[ top ];
-	elems[ top ] = null;
-
-	return saved;
-    }
-
-    public E peek() {
-	// pre-condition: ! isEmpty()
-
-	return elems[ top-1 ];
-    }
-}
->>>>>>> Stashed changes:Assignment4/src/GenericArrayStack.java
