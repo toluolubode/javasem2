@@ -1,57 +1,3 @@
-// public class GenericArrayStack<E> implements Stack<E> {
-//
-//     // E is the type of the elements of this stack.  The specific type
-//     // will specified when a reference is declared and a stack is
-//     // actually created. E.g.:
-//     //
-//     // Stack<Integer> nums;
-//     // nums = new GenericArrayStack<Integer>( 10 );
-//
-//     // Instance variables
-//
-//     private E[] elems; // Used to store the elements of this ArrayStack
-//     private int top; // Designates the first free cell
-//
-//     @SuppressWarnings( "unchecked" )
-//
-//     // Constructor
-//     public GenericArrayStack( int capacity ) {
-// 	elems = (E[]) new Object[ capacity ];
-// 	// elems = new E[ capacity ];
-// 	top = 0;
-//     }
-//
-//     // Returns true if this ArrayStack is empty
-//     public boolean isEmpty() {
-// 	return top == 0;
-//     }
-//
-//     public void push( E elem ) {
-// 	// pre-condition: ! isFull()
-//
-// 	elems[ top ] = elem;
-// 	top++;
-//
-//     }
-//     public E pop() {
-// 	// pre-condition: ! isEmpty()
-//
-// 	E saved;
-//
-// 	top--;
-// 	saved = elems[ top ];
-// 	elems[ top ] = null;
-//
-// 	return saved;
-//     }
-//
-//     public E peek() {
-// 	// pre-condition: ! isEmpty()
-//
-// 	return elems[ top-1 ];
-//     }
-// }
-
 public class GenericLinkedStack<E> implements Stack<E> {
 
     // E is the type of the elements of this stack.  The specific type
@@ -60,62 +6,61 @@ public class GenericLinkedStack<E> implements Stack<E> {
     //
     // Stack<Integer> nums;
     // nums = new GenericArrayStack<Integer>( 10 );
-     static class Elem<Q>{
-         Q data;
-         Elem<Q> next;
 
-        private Elem(Q data, Elem<Q> next){
-            this.data = data;
+
+    private Node<E> store;
+    private int top; // Designates the first free cell
+    // Returns true if this ArrayStack is empty
+
+    private static class Node<T>{
+        private T item;
+        private Node<T> next;
+
+        private Node(T item, Node<T> next){
+            this.item = item;
             this.next = next;
         }
-
-        public Elem<Q> getNext(){
-            return next;
-        }
     }
-    // Instance variables
-
-
-    private Elem<E> top;
+    @SuppressWarnings( "unchecked" )
 
     public GenericLinkedStack(){
-        top = null;
+        store.item= null;
+        top= 0;
     }
-
     public boolean isEmpty() {
-        return top == null;
+        if (store.item == null){
+            return false;
+        }
+        return true;
     }
 
-    public void push( E elem ) {
-        // pre-condition: ! isFull()
-        top = new Elem<E>(elem, top);
+    public void push( E elem ) throws EmptyStackException {
 
-
-    }
-    public E pop() {
-        // pre-condition: ! isEmpty()
-        if(isEmpty()) {
-            System.out.println("isEmpty");
-            return null;
+        if (elem == null){
+            throw new EmptyStackException(elem);
         }
 
-        E data = top.data;
-        top = top.next;
+        store = new Node<E>(elem, store);
 
-        System.out.println(data);
 
-        return data;
+        top++;
+    }
+
+    public E pop() {
+
+        E elem;
+
+        elem= store.item;
+
+        store=store.next;
+        top--;
+
+        return elem;
     }
 
     public E peek() {
         // pre-condition: ! isEmpty()
-        if(isEmpty())
-            return null;
 
-        return top.data;
+        return store.item;
     }
-
-
-
-
 }
