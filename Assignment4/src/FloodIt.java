@@ -31,7 +31,7 @@ public class FloodIt {
                 System.out.println("Invalide argument, using default...");
             }
         }
-        GameController game = new GameController(18);
+        GameController game = new GameController(10);
     }
 
 

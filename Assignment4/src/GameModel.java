@@ -223,15 +223,25 @@ public class GameModel implements Cloneable {
         StringBuffer b = new StringBuffer();
         for(int i = 0; i < sizeOfGame; i++){
             for(int j = 0; j < sizeOfGame; j++){
-                b.append(getColor(i, j) + " ");
+                b.append(get(i,j).isCaptured() + " ");
             }
             b.append("\n");
         }
         return b.toString();
     }
 
-    @Override
-    protected Object clone() throws CloneNotSupportedException{
-        return GameModel.this;
+    //@Override
+    public Object clone() {
+        GameModel g = null;
+        try{
+            g = (GameModel) super.clone();
+            g.model = model.clone();
+
+        }
+        catch (CloneNotSupportedException e){
+            e.printStackTrace();
+        }
+
+        return g;
     }
 }

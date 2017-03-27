@@ -118,9 +118,11 @@ public class GameView extends JFrame {
 
         controlPanel = new JPanel();
         undo = new JButton("undo");
+        undo.setEnabled(false);
         undo.addActionListener(gameController);
 
         redo = new JButton("redo");
+        //redo.setEnabled(false);
         redo.addActionListener(gameController);
 
         settings = new JButton("Settings");
@@ -180,6 +182,10 @@ public class GameView extends JFrame {
             scoreLabel.setText("Number of steps: 0");
 
         }
+
+        undo.setEnabled(true);
+
+
 
         repaint();
 

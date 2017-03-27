@@ -15,7 +15,7 @@ import javax.swing.*;
  */
 
 
-public class GameController implements ActionListener {
+public class GameController implements ActionListener, Cloneable {
 
     /**
      * Reference to the view of the board
@@ -26,8 +26,8 @@ public class GameController implements ActionListener {
      */
     private GameModel gameModel;
     private boolean orthogonal, diagonal, plane, torus;
-    private boolean inc = false;
-    private Stack<GameModel> cloneStack;
+    private GenericLinkedStack<GameModel> undoStack, redoStack;
+    private int anInt = 1;
 
     /**
      * Constructor used for initializing the controller. It creates the game's view 
@@ -43,7 +43,11 @@ public class GameController implements ActionListener {
         gameModel = new GameModel(size);
         gameView = new GameView(gameModel, this);
 
-        //cloneStack = new GenericLinkedStack<>();
+        undoStack = new GenericLinkedStack<>();
+
+        undoStack.push((GameModel)gameModel.clone());
+
+        redoStack = new GenericLinkedStack<>();
         //flood();
         //gameView.update();
     }
@@ -72,14 +76,13 @@ public class GameController implements ActionListener {
 
             if(e.getActionCommand().equals("boardButton")) {
 
-
-
                 if(gameModel.getNumberOfSteps()==-1 ){
                     setCaptured(a.getRow(), a.getColumn());
                     gameModel.setCurrentSelectedColor(a.getColor());
                     flood();
                     gameModel.step();
                     gameView.update();
+                    undoStack.push(gameModel);
                 }
                 else
                     selectColor(a.getColor());
@@ -105,9 +108,22 @@ public class GameController implements ActionListener {
                 reset();
              }
              else if(clicked.getText().equals("redo")){
-
+                 if(!redoStack.isEmpty()) {
+                     undoStack.push(redoStack.peek());
+                     gameModel = redoStack.pop();
+                 }
+                 else {
+                     System.out.println("No!");
+                 }
             }
             else if(clicked.getText().equals("undo")){
+
+                 if(gameModel.getNumberOfSteps() > -1){
+                     redoStack.push((GameModel) gameModel.clone());
+                     copyValues(undoStack.pop());
+                     gameView.update();
+
+                 }
 
             }
             else if(clicked.getText().equals("Settings")){
@@ -135,7 +151,6 @@ public class GameController implements ActionListener {
                 diagonal=true;
             }
 
-            //System.out.println(plane + "\n" + orthogonal);
 
         }
     }
@@ -154,7 +169,6 @@ public class GameController implements ActionListener {
             gameModel.setCurrentSelectedColor(color);
             flood();
             gameModel.step();
-
 
             gameView.update();
 
@@ -185,7 +199,15 @@ public class GameController implements ActionListener {
      */
      private void flood() {
 
-        Stack<DotInfo> stack = new GenericLinkedStack<>(gameModel.getSize()*gameModel.getSize());
+         boolean changed = false;
+         DotInfo initial;
+         DotInfo finalD = null;
+         GameModel oldModel = null;
+
+         oldModel = (GameModel) gameModel.clone();
+
+
+         Stack<DotInfo> stack = new GenericLinkedStack<>();
         for(int i =0; i < gameModel.getSize(); i++) {
            for(int j =0; j < gameModel.getSize(); j++) {
                 if(gameModel.isCaptured(i,j)) {
@@ -193,6 +215,8 @@ public class GameController implements ActionListener {
                 }
            }
         }
+
+        initial = stack.peek();
 
         while(!stack.isEmpty()){
             DotInfo DotInfo = stack.pop();
@@ -221,9 +245,24 @@ public class GameController implements ActionListener {
 
             if(diagonal){
                 diagonal(DotInfo, stack);
-                System.out.println("diagonal");
             }
+
+            finalD = DotInfo;
         }
+
+        if(!initial.equals(finalD)){
+            changed = true;
+        }
+
+        if(changed && !undoStack.peek().equals(oldModel)){
+
+            undoStack.push(oldModel);
+            anInt++;
+
+            //System.out.println(oldModel+"\n~~~~~~~~~~~~\n");
+        }
+
+
     }
 
 
@@ -317,23 +356,19 @@ public class GameController implements ActionListener {
         if((DotInfo.getX() == 0) && shouldBeCaptured (s-1, DotInfo.getY())) {
             gameModel.capture(s-1, DotInfo.getY());
             stack.push(gameModel.get(s-1, DotInfo.getY()));
-            System.out.println((s-1)+" "+DotInfo.getY());
         }
 
         if((DotInfo.getX() == s-1) && shouldBeCaptured (0, DotInfo.getY())) {
             gameModel.capture(0, DotInfo.getY());
             stack.push(gameModel.get(0, DotInfo.getY()));
-            System.out.println(0+" "+DotInfo.getY());
         }
         if((DotInfo.getY()==0) && shouldBeCaptured (DotInfo.getX(), s-1)) {
             gameModel.capture(DotInfo.getX(), s-1);
             stack.push(gameModel.get(DotInfo.getX(), s-1));
-            System.out.println(DotInfo.getX()+" "+(s-1));
         }
         if((DotInfo.getY() == s-1) && shouldBeCaptured (DotInfo.getX(), 0)) {
             gameModel.capture(DotInfo.getX(), 0);
             stack.push(gameModel.get(DotInfo.getX(), 0));
-            System.out.println(DotInfo.getX()+" "+0);
         }
 
     }
@@ -415,6 +450,18 @@ public class GameController implements ActionListener {
         }
 
 
+    }
+
+    private void copyValues(GameModel old){
+        for(int i = 0; i < gameModel.getSize(); i++){
+            for(int j = 0; j < gameModel.getSize(); j++){
+
+                gameModel.get(i,j).setCaptured(old.get(i,j).isCaptured());
+                gameModel.setCurrentSelectedColor(old.getCurrentSelectedColor());
+
+
+            }
+        }
     }
 
 
