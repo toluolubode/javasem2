@@ -12,7 +12,7 @@ public class GenericLinkedStack<E> implements Stack<E> {
     private int top; // Designates the first free cell
     // Returns true if this ArrayStack is empty
 
-    private static class Node<T>{
+    private class Node<T>{
         private T item;
         private Node<T> next;
 
@@ -24,14 +24,11 @@ public class GenericLinkedStack<E> implements Stack<E> {
     @SuppressWarnings( "unchecked" )
 
     public GenericLinkedStack(){
-        store.item= null;
+        store = null;
         top= 0;
     }
     public boolean isEmpty() {
-        if (store.item == null){
-            return false;
-        }
-        return true;
+        return store == null;
     }
 
     public void push( E elem ) throws EmptyStackException {
@@ -39,6 +36,8 @@ public class GenericLinkedStack<E> implements Stack<E> {
         if (elem == null){
             throw new EmptyStackException(elem);
         }
+
+        //System.out.println("push\n"+elem+"\n");
 
         store = new Node<E>(elem, store);
 
@@ -54,6 +53,8 @@ public class GenericLinkedStack<E> implements Stack<E> {
 
         store=store.next;
         top--;
+
+
 
         return elem;
     }

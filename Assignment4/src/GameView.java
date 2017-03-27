@@ -122,7 +122,7 @@ public class GameView extends JFrame {
         undo.addActionListener(gameController);
 
         redo = new JButton("redo");
-        //redo.setEnabled(false);
+        redo.setEnabled(false);
         redo.addActionListener(gameController);
 
         settings = new JButton("Settings");
@@ -174,21 +174,27 @@ public class GameView extends JFrame {
         }
         if(gameModel.getNumberOfSteps() >= 1) {
             scoreLabel.setText("Number of steps: " + gameModel.getNumberOfSteps());
+            setUndo(true);
         }
         else if(gameModel.getNumberOfSteps()==-1){
             scoreLabel.setText("Select initial color");
+            setUndo(false);
         }
         else {
             scoreLabel.setText("Number of steps: 0");
-
+            setUndo(true);
         }
-
-        undo.setEnabled(true);
-
-
 
         repaint();
 
+    }
+
+    public void setRedo(boolean b){
+        redo.setEnabled(b);
+    }
+
+    public void setUndo(boolean b){
+        undo.setEnabled(b);
     }
 
 }

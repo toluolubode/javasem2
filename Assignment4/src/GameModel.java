@@ -1,3 +1,4 @@
+import java.io.*;
 import java.util.Random;
 
 /**
@@ -15,7 +16,7 @@ import java.util.Random;
  *
  * @author Guy-Vincent Jourdan, University of Ottawa
  */
-public class GameModel implements Cloneable {
+public class GameModel implements Cloneable, Serializable {
 
 
     /**
@@ -46,6 +47,7 @@ public class GameModel implements Cloneable {
      */
 	private DotInfo[][] model;
 
+	private boolean torus, diagonal;
 
    /**
      * The number of steps played since the last reset
@@ -94,6 +96,7 @@ public class GameModel implements Cloneable {
 
     	numberOfSteps = -1;
         numberCaptured = 0;
+        torus = diagonal = false;
     }
 
 
@@ -213,7 +216,9 @@ public class GameModel implements Cloneable {
         return numberCaptured == sizeOfGame*sizeOfGame;
     }
 
-
+    public int getNumberCaptured(){
+        return numberCaptured;
+    }
    /**
      * Builds a String representation of the model
      *
@@ -230,18 +235,90 @@ public class GameModel implements Cloneable {
         return b.toString();
     }
 
-    //@Override
+    @Override
     public Object clone() {
         GameModel g = null;
         try{
             g = (GameModel) super.clone();
-            g.model = model.clone();
+            g.reset();
+
+            for (int i = 0; i < sizeOfGame; i++) {
+                for (int j = 0; j < sizeOfGame; j++) {
+                    DotInfo d = new DotInfo(i,j, getColor(i,j));
+                    d.setCaptured(isCaptured(i,j));
+                    g.model[i][j] = d;
+                }
+            }
+
+            g.currentSelectedColor = currentSelectedColor;
+            g.numberOfSteps = numberOfSteps;
+            g.numberCaptured = numberCaptured;
 
         }
         catch (CloneNotSupportedException e){
             e.printStackTrace();
         }
 
+
+
         return g;
     }
+
+    public void setValues(int numberOfSteps, int numberCaptured){
+        this.numberOfSteps = numberOfSteps;
+        this.numberCaptured = numberCaptured;
+    }
+
+    public void setTorus(boolean torus){
+        this.torus = torus;
+    }
+
+    public void setDiagonal(boolean diagonal){
+        this.diagonal = diagonal;
+    }
+
+    public boolean getTorus(){
+        return torus;
+    }
+
+    public boolean getDiagonal(){
+        return diagonal;
+    }
+
+    public void writeObject(){
+        FileOutputStream fileOutputStream = null;
+
+        try{
+            fileOutputStream = new FileOutputStream("savedGame.ser");
+            ObjectOutputStream  output = new ObjectOutputStream(fileOutputStream);
+            output.writeObject(clone());
+            output.close();
+            fileOutputStream.close();
+        }
+        catch (IOException e){
+            e.printStackTrace();
+        }
+
+    }
+
+    public GameModel readObject(){
+        FileInputStream fileInputStream = null;
+        GameModel g = null;
+        try{
+            fileInputStream = new FileInputStream("savedGame.ser");
+            ObjectInputStream in = new ObjectInputStream(fileInputStream);
+            g = (GameModel) in.readObject();
+        }
+        catch (IOException e){
+            g = null;
+        }
+        catch (ClassNotFoundException e){
+            e.printStackTrace();
+            g = null;
+
+        }
+
+        return g;
+    }
+
 }

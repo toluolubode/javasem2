@@ -1,6 +1,8 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.LinkedList;
 
 import javax.swing.*;
@@ -15,7 +17,7 @@ import javax.swing.*;
  */
 
 
-public class GameController implements ActionListener, Cloneable {
+public class GameController implements ActionListener {
 
     /**
      * Reference to the view of the board
@@ -27,7 +29,7 @@ public class GameController implements ActionListener, Cloneable {
     private GameModel gameModel;
     private boolean orthogonal, diagonal, plane, torus;
     private GenericLinkedStack<GameModel> undoStack, redoStack;
-    private int anInt = 1;
+    private GameModel oldModel;
 
     /**
      * Constructor used for initializing the controller. It creates the game's view 
@@ -43,9 +45,16 @@ public class GameController implements ActionListener, Cloneable {
         gameModel = new GameModel(size);
         gameView = new GameView(gameModel, this);
 
+        GameModel g = gameModel.readObject();
+
+        if(g != null){
+            copyValues(g);
+            gameView.update();
+        }
+
         undoStack = new GenericLinkedStack<>();
 
-        undoStack.push((GameModel)gameModel.clone());
+       // undoStack.push((GameModel)gameModel.clone());
 
         redoStack = new GenericLinkedStack<>();
         //flood();
@@ -59,6 +68,8 @@ public class GameController implements ActionListener, Cloneable {
         gameModel.reset();
         //flood();
         gameView.update();
+        undoStack = new GenericLinkedStack<>();
+        redoStack = new GenericLinkedStack<>();
     }
 
     /**
@@ -77,12 +88,13 @@ public class GameController implements ActionListener, Cloneable {
             if(e.getActionCommand().equals("boardButton")) {
 
                 if(gameModel.getNumberOfSteps()==-1 ){
-                    setCaptured(a.getRow(), a.getColumn());
+                    oldModel = (GameModel) gameModel.clone();
+                    gameModel.capture(a.getRow(), a.getColumn());
                     gameModel.setCurrentSelectedColor(a.getColor());
                     flood();
                     gameModel.step();
                     gameView.update();
-                    undoStack.push(gameModel);
+                    undoStack.push(oldModel);
                 }
                 else
                     selectColor(a.getColor());
@@ -92,6 +104,7 @@ public class GameController implements ActionListener, Cloneable {
             else{
                 if(gameModel.getNumberOfSteps()>=0)
                 selectColor(a.getColor());
+                System.out.println("select color\n");
             }
 
             //selectColor(a.getColor());
@@ -103,6 +116,7 @@ public class GameController implements ActionListener, Cloneable {
             JButton clicked = (JButton)(e.getSource());
 
             if (clicked.getText().equals("Quit")) {
+                gameModel.writeObject();
                  System.exit(0);
              } else if (clicked.getText().equals("Reset")){
                 reset();
@@ -110,20 +124,29 @@ public class GameController implements ActionListener, Cloneable {
              else if(clicked.getText().equals("redo")){
                  if(!redoStack.isEmpty()) {
                      undoStack.push(redoStack.peek());
-                     gameModel = redoStack.pop();
+                     copyValues(redoStack.pop());
+                     gameView.update();
+
+                     if(redoStack.isEmpty()){
+                         gameView.setRedo(false);
+                     }
                  }
-                 else {
-                     System.out.println("No!");
-                 }
+
             }
             else if(clicked.getText().equals("undo")){
 
-                 if(gameModel.getNumberOfSteps() > -1){
+                 if(!undoStack.isEmpty()){
                      redoStack.push((GameModel) gameModel.clone());
                      copyValues(undoStack.pop());
                      gameView.update();
+                     gameView.setRedo(true);
+
+                     if(undoStack.isEmpty()){
+                         gameView.setUndo(false);
+                     }
 
                  }
+
 
             }
             else if(clicked.getText().equals("Settings")){
@@ -135,20 +158,16 @@ public class GameController implements ActionListener, Cloneable {
             JRadioButton clicked = (JRadioButton)(e.getSource());
 
             if(clicked.getText().equals("Plane") && clicked.isSelected()){
-                plane=true;
-                torus=false;
+                gameModel.setTorus(false);
             }
             else if(clicked.getText().equals("Torus")){
-                plane=false;
-                torus=true;
+                gameModel.setTorus(true);
             }
             else if(clicked.getText().equals("Orthogonal") && clicked.isSelected()){
-                orthogonal=true;
-                torus=false;
+                gameModel.setDiagonal(false);
             }
             else if(clicked.getText().equals("Diagonal")){
-                orthogonal=false;
-                diagonal=true;
+                gameModel.setDiagonal(true);
             }
 
 
@@ -165,14 +184,18 @@ public class GameController implements ActionListener, Cloneable {
      *            the newly selected color
      */
     public void selectColor(int color){
+
         if(color != gameModel.getCurrentSelectedColor()) {
+            oldModel = (GameModel) gameModel.clone();
             gameModel.setCurrentSelectedColor(color);
             flood();
             gameModel.step();
 
             gameView.update();
 
+
             if(gameModel.isFinished()) {
+                deleteCache();
                       Object[] options = {"Play Again",
                                 "Quit"};
                         int n = JOptionPane.showOptionDialog(gameView,
@@ -202,11 +225,8 @@ public class GameController implements ActionListener, Cloneable {
          boolean changed = false;
          DotInfo initial;
          DotInfo finalD = null;
-         GameModel oldModel = null;
 
-         oldModel = (GameModel) gameModel.clone();
-
-
+         //Stack<DotInfo> stack = new GenericArrayStack<>(gameModel.getSize()*gameModel.getSize());
          Stack<DotInfo> stack = new GenericLinkedStack<>();
         for(int i =0; i < gameModel.getSize(); i++) {
            for(int j =0; j < gameModel.getSize(); j++) {
@@ -220,6 +240,7 @@ public class GameController implements ActionListener, Cloneable {
 
         while(!stack.isEmpty()){
             DotInfo DotInfo = stack.pop();
+            //System.out.println("DOTINFO\n" + DotInfo+"\n");
 
             if((DotInfo.getX() > 0) && shouldBeCaptured (DotInfo.getX()-1, DotInfo.getY())) {
                 gameModel.capture(DotInfo.getX()-1, DotInfo.getY());
@@ -254,10 +275,9 @@ public class GameController implements ActionListener, Cloneable {
             changed = true;
         }
 
-        if(changed && !undoStack.peek().equals(oldModel)){
+        if(changed){
 
             undoStack.push(oldModel);
-            anInt++;
 
             //System.out.println(oldModel+"\n~~~~~~~~~~~~\n");
         }
@@ -285,11 +305,6 @@ public class GameController implements ActionListener, Cloneable {
         }
     }
 
-    private void setCaptured(int row, int column){
-       gameModel.get(row,column).setCaptured(true);
-       //flood();
-       //gameView.update();
-    }
 
     private void openSettingsDialog(){
         JFrame frame = new JFrame();
@@ -299,21 +314,21 @@ public class GameController implements ActionListener, Cloneable {
         JLabel play = new JLabel("Play on tortus or plane");
 
         JRadioButton plane = new JRadioButton("Plane");
-        plane.setSelected(this.plane);
+        plane.setSelected(!gameModel.getTorus());
         plane.addActionListener(this);
 
         JRadioButton tortus = new JRadioButton("Torus");
-        tortus.setSelected(this.torus);
+        tortus.setSelected(gameModel.getTorus());
         tortus.addActionListener(this);
 
         JLabel moves = new JLabel("Diagonal moves?");
 
         JRadioButton orthogonal = new JRadioButton("Orthogonal");
-        orthogonal.setSelected(this.orthogonal);
+        orthogonal.setSelected(!gameModel.getDiagonal());
         orthogonal.addActionListener(this);
 
         JRadioButton diagonal = new JRadioButton("Diagonal");
-        diagonal.setSelected(this.diagonal);
+        diagonal.setSelected(gameModel.getDiagonal());
         diagonal.addActionListener(this);
 
         ButtonGroup playGroup = new ButtonGroup();
@@ -453,15 +468,33 @@ public class GameController implements ActionListener, Cloneable {
     }
 
     private void copyValues(GameModel old){
+        gameModel.setCurrentSelectedColor(old.getCurrentSelectedColor());
         for(int i = 0; i < gameModel.getSize(); i++){
             for(int j = 0; j < gameModel.getSize(); j++){
 
                 gameModel.get(i,j).setCaptured(old.get(i,j).isCaptured());
-                gameModel.setCurrentSelectedColor(old.getCurrentSelectedColor());
-
 
             }
         }
+
+        gameModel.setValues(old.getNumberOfSteps(), old.getNumberCaptured());
+        gameModel.setDiagonal(old.getDiagonal());
+        gameModel.setTorus(old.getTorus());
+
+    }
+
+    public void deleteCache(){
+        File f = null;
+
+        try {
+            f = new File("savedGame.ser");
+            f.delete();
+        }
+        catch (Exception e){
+            e.printStackTrace();
+        }
+
+
     }
 
 

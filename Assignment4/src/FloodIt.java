@@ -17,6 +17,9 @@ public class FloodIt {
      *            command line parameters
      */
      public static void main(String[] args) {
+
+         StudentInfo.display();
+
         int size = 10;
         //int size = 17;
         //int size = 22;

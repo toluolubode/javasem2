@@ -1,3 +1,4 @@
+import java.io.Serializable;
 
 /**
  * The class <b>DotInfo</b> is a simple helper class to store the initial color and state
@@ -6,7 +7,7 @@
  * @author Guy-Vincent Jourdan, University of Ottawa
  */
 
-public class DotInfo {
+public class DotInfo implements Serializable {
 
     /**
      * The coordinate of this DotInfo.
