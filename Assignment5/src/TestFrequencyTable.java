@@ -49,7 +49,7 @@ public class TestFrequencyTable {
 
     public static void main(String[] args) {
 
-	StudentInfo.display();
+	//StudentInfo.display();
 
 	int k = 5;
 

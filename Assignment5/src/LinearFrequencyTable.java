@@ -1,3 +1,4 @@
+import java.util.Arrays;
 import java.util.NoSuchElementException;
 
 /** Implements the interface <code>FrequencyTable</code> using linked
@@ -68,6 +69,7 @@ public class LinearFrequencyTable implements FrequencyTable {
 	        if(elem.key.equals(key)){
 	            return elem.count;
             }
+            elem = elem.next;
         }
 
         return 0;
@@ -85,13 +87,14 @@ public class LinearFrequencyTable implements FrequencyTable {
     public void init(String key) {
 
 	//throw new UnsupportedOperationException("IMPLEMENT THIS METHOD");
-        if(head.next == null){
-            head = new Elem(key, null, null);
+        if(head.key == null){
+            head = new Elem(key, null, head);
         }
         else {
             head = new Elem(key, null, head);
             head.next.previous = head;
         }
+        size++;
     }
 
     /** The method updates the frequency associed with the key by one.
@@ -105,14 +108,13 @@ public class LinearFrequencyTable implements FrequencyTable {
 	    //throw new UnsupportedOperationException("IMPLEMENT THIS METHOD");
 	    Elem newHead = head;
 
-	    while (head.key != null){
-	        if(head.key.equals(key)){
-	            head.count++;
+	    while (newHead.key != null){
+	        if(newHead.key.equals(key)){
+	            newHead.count++;
 	            break;
             }
+            newHead = newHead.next;
         }
-
-        head = newHead;
 
 
     }
@@ -129,25 +131,30 @@ public class LinearFrequencyTable implements FrequencyTable {
         Elem newHead = head;
         LinkedList<String> linkedList = new LinkedList<>();
 
-        while (newHead.key != null){
-            int size = linkedList.size();
-            String key = newHead.key;
-            if(size == 0){
-                linkedList.add(0, key);
-            }
-            else{
-                int i = 0;
-                Iterator<String> iterator = linkedList.iterator();
-                while (iterator!=null && iterator.hasNext()){
-                    String temp = linkedList.get(i);
-                    if(temp.compareTo(key)<0){
-                        linkedList.add(i, key);
-                    }
-                    i++;
-                }
-            }
-        }
+        int i = 0;
 
+        while (i < size){
+
+            int j = 0;
+            boolean added = false;
+            Iterator<String> iterator = linkedList.iterator();
+
+            while (iterator.hasNext()) {
+                String temp = iterator.next();
+                if (temp != null && temp.compareToIgnoreCase(newHead.key) > 0) {
+                    linkedList.add(j, newHead.key);
+                    added = true;
+                    break;
+                }
+                j++;
+            }
+
+            if (!added) linkedList.addLast(newHead.key);
+
+
+            newHead = newHead.next;
+            i++;
+        }
         return linkedList;
     }
 
@@ -173,6 +180,7 @@ public class LinearFrequencyTable implements FrequencyTable {
         }
         sort(valuesList);
 
+
         return valuesList;
 
     }
@@ -186,14 +194,18 @@ public class LinearFrequencyTable implements FrequencyTable {
     public String toString() {
 
         StringBuffer str = new StringBuffer("{");
-        Elem p = head.next;
+        Elem p = head;
+        int i = 0;
+        //p != head
 
-        while (p != head) {
-            str.append("{key="+p.key+", count="+p.count+"}");
-            if (p.next != head) {
-            str.append(",");
+        while (i < size) {
+            String entry = "{key="+p.key+", count="+p.count+"}";
+            str.append(entry);
+            if (i < size-1) {
+                str.append(",");
             }
             p = p.next;
+            i++;
         }
         str.append("}");
         return str.toString();
@@ -208,9 +220,11 @@ public class LinearFrequencyTable implements FrequencyTable {
             while(pos > 0 && vals[pos-1] > vals[pos]){
                 vals[pos] = vals[pos-1];
                 pos--;
+                vals[pos] = temp;
+
             }
 
-            vals[pos] = temp;
+
         }
     }
 

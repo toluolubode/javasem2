@@ -31,9 +31,18 @@ public class LinkedList<E> {
     private class LinkedListIterator implements Iterator<E> {
     
         private Elem<E> current;
+        private int stop, count;
+        private boolean stopper = false;
     
         private LinkedListIterator() {
             current = head;
+        }
+
+        private LinkedListIterator(int stop){
+            current = head;
+            this.stop = stop;
+            this.stopper = true;
+            count= 0;
         }
     
         public E next() {
@@ -41,8 +50,19 @@ public class LinkedList<E> {
             if (current.next == head) {
         	    throw new NoSuchElementException();
             }
-      
-            current = current.next ; // move the cursor forward
+
+            if(stopper && count < stop) {
+
+                current = current.next; // move the cursor forward
+                count++;
+            }
+            else if(!stopper){
+                current = current.next;
+            }
+            else{
+                return null;
+            }
+
       
             return current.value ;
         }
@@ -82,7 +102,9 @@ public class LinkedList<E> {
 
     public Iterator<E> iterator(int stop) {
 
-	throw new UnsupportedOperationException("IMPLEMENT THIS METHOD");
+	    //throw new UnsupportedOperationException("IMPLEMENT THIS METHOD");
+
+        return new LinkedListIterator(stop);
 	
     }
     
@@ -204,7 +226,7 @@ public class LinkedList<E> {
             throw new NoSuchElementException();
         }
 
-	remove(head.next);
+	    remove(head.next);
     }
 
     /** Removes the last element from this list.

@@ -10,7 +10,7 @@ public class TestDistance {
 
     public static void main(String[] args) {
 
-	StudentInfo.display();
+	//StudentInfo.display();
 
 	String a = "ACACACACACACACACACACACACACACACACACACACAC";
 	String b = "ACACACACACACACACACACCACACACACACACACACACAC";

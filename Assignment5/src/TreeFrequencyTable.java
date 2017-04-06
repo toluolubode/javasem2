@@ -47,7 +47,8 @@ public class TreeFrequencyTable implements FrequencyTable {
   
     public void init(String key) {
     
-	throw new UnsupportedOperationException("IMPLEMENT THIS METHOD");
+	    //throw new UnsupportedOperationException("IMPLEMENT THIS METHOD");
+        root = new Elem(key);
     
     }
   
@@ -58,7 +59,7 @@ public class TreeFrequencyTable implements FrequencyTable {
   
     public void update(String key) {
     
-	throw new UnsupportedOperationException("IMPLEMENT THIS METHOD");
+	//throw new UnsupportedOperationException("IMPLEMENT THIS METHOD");
 
     }
   
