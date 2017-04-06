@@ -39,7 +39,7 @@ public class LinkedList<E> {
         public E next() {
       
             if (current.next == head) {
-        	throw new NoSuchElementException();
+        	    throw new NoSuchElementException();
             }
       
             current = current.next ; // move the cursor forward

@@ -12,17 +12,17 @@ public class LinearFrequencyTable implements FrequencyTable {
 
     private static class Elem {
 
-	private String key;
-	private long count;
-	private Elem previous;
-	private Elem next;
+        private String key;
+        private long count;
+        private Elem previous;
+        private Elem next;
 
-	private Elem(String key, Elem previous, Elem next) {
-	    this.key = key;
-	    this.count = 0;
-	    this.previous = previous;
-	    this.next = next;
-	}
+        private Elem(String key, Elem previous, Elem next) {
+            this.key = key;
+            this.count = 0;
+            this.previous = previous;
+            this.next = next;
+        }
 
     }
 
@@ -33,10 +33,10 @@ public class LinearFrequencyTable implements FrequencyTable {
      */
 
     public LinearFrequencyTable() {
-	head = new Elem(null, null, null); // dummy node
-	head.previous = head; // making the dummy node circular
-	head.next = head; // making the dummy node circular
-	size = 0;
+        head = new Elem(null, null, null); // dummy node
+        head.previous = head; // making the dummy node circular
+        head.next = head; // making the dummy node circular
+        size = 0;
     }
 
     /** The size of the frequency table.
@@ -57,7 +57,20 @@ public class LinearFrequencyTable implements FrequencyTable {
 
     public long get(String key) {
 
-	throw new UnsupportedOperationException("IMPLEMENT THIS METHOD");
+        if(key == null) {
+            throw new UnsupportedOperationException("IMPLEMENT THIS METHOD");
+        }
+
+	    Elem elem = head;
+
+
+	    while (elem != null){
+	        if(elem.key.equals(key)){
+	            return elem.count;
+            }
+        }
+
+        return 0;
 	
     }
 
@@ -71,8 +84,14 @@ public class LinearFrequencyTable implements FrequencyTable {
 
     public void init(String key) {
 
-	throw new UnsupportedOperationException("IMPLEMENT THIS METHOD");
-
+	//throw new UnsupportedOperationException("IMPLEMENT THIS METHOD");
+        if(head.next == null){
+            head = new Elem(key, null, null);
+        }
+        else {
+            head = new Elem(key, null, head);
+            head.next.previous = head;
+        }
     }
 
     /** The method updates the frequency associed with the key by one.
@@ -83,7 +102,18 @@ public class LinearFrequencyTable implements FrequencyTable {
 
     public void update(String key) {
 	
-	throw new UnsupportedOperationException("IMPLEMENT THIS METHOD");
+	    //throw new UnsupportedOperationException("IMPLEMENT THIS METHOD");
+	    Elem newHead = head;
+
+	    while (head.key != null){
+	        if(head.key.equals(key)){
+	            head.count++;
+	            break;
+            }
+        }
+
+        head = newHead;
+
 
     }
 
@@ -95,8 +125,30 @@ public class LinearFrequencyTable implements FrequencyTable {
 
     public LinkedList<String> keys() {
 
-	throw new UnsupportedOperationException("IMPLEMENT THIS METHOD");
+	    //throw new UnsupportedOperationException("IMPLEMENT THIS METHOD");
+        Elem newHead = head;
+        LinkedList<String> linkedList = new LinkedList<>();
 
+        while (newHead.key != null){
+            int size = linkedList.size();
+            String key = newHead.key;
+            if(size == 0){
+                linkedList.add(0, key);
+            }
+            else{
+                int i = 0;
+                Iterator<String> iterator = linkedList.iterator();
+                while (iterator!=null && iterator.hasNext()){
+                    String temp = linkedList.get(i);
+                    if(temp.compareTo(key)<0){
+                        linkedList.add(i, key);
+                    }
+                    i++;
+                }
+            }
+        }
+
+        return linkedList;
     }
 
     /** Returns an array containing the frequencies of the keys in the
@@ -108,7 +160,20 @@ public class LinearFrequencyTable implements FrequencyTable {
 
     public long[] values() {
 
-	throw new UnsupportedOperationException("IMPLEMENT THIS METHOD");
+	    //throw new UnsupportedOperationException("IMPLEMENT THIS METHOD");
+
+        Elem newHead = head;
+        long[] valuesList = new long[size()];
+        int i = 0;
+
+        while(size() > 0 && i < size()){
+            valuesList[i] = newHead.count;
+            newHead = newHead.next;
+            i++;
+        }
+        sort(valuesList);
+
+        return valuesList;
 
     }
 
@@ -120,18 +185,33 @@ public class LinearFrequencyTable implements FrequencyTable {
 
     public String toString() {
 
-	StringBuffer str = new StringBuffer("{");
-	Elem p = head.next;
+        StringBuffer str = new StringBuffer("{");
+        Elem p = head.next;
 
-	while (p != head) {
-	    str.append("{key="+p.key+", count="+p.count+"}");
-	    if (p.next != head) {
-		str.append(",");
-	    }
-	    p = p.next;
-	}
-	str.append("}");
-	return str.toString();
+        while (p != head) {
+            str.append("{key="+p.key+", count="+p.count+"}");
+            if (p.next != head) {
+            str.append(",");
+            }
+            p = p.next;
+        }
+        str.append("}");
+        return str.toString();
+
+    }
+
+    private void sort(long[] vals){
+        for (int i = 1; i < vals.length; i++){
+            long temp = vals[i];
+            int pos = i;
+
+            while(pos > 0 && vals[pos-1] > vals[pos]){
+                vals[pos] = vals[pos-1];
+                pos--;
+            }
+
+            vals[pos] = temp;
+        }
     }
 
 }
