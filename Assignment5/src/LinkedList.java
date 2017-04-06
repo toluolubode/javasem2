@@ -31,11 +31,12 @@ public class LinkedList<E> {
     private class LinkedListIterator implements Iterator<E> {
     
         private Elem<E> current;
-        private int stop, count;
+        private int start, step, stop, count;
         private boolean stopper = false;
     
         private LinkedListIterator() {
             current = head;
+            start = 0;
         }
 
         private LinkedListIterator(int stop){
@@ -43,6 +44,44 @@ public class LinkedList<E> {
             this.stop = stop;
             this.stopper = true;
             count= 0;
+            step=0;
+            start = 0;
+        }
+
+        private LinkedListIterator(int start, int stop){
+
+            if(start >= LinkedList.this.size()){
+                throw new IndexOutOfBoundsException("You can't start there mate!");
+            }
+
+            for (int i = 0; i <= start; i++){
+                if(i == 0) current = head;
+
+                else current = head.next;
+            }
+
+            this.stop = stop;
+            this.stopper = true;
+            count= 0;
+            this.start = start;
+        }
+
+        private LinkedListIterator(int start, int step, int stop){
+
+            if(start >= LinkedList.this.size()){
+                throw new IndexOutOfBoundsException("You can't start there mate!");
+            }
+
+            for (int i = 0; i <= start; i++){
+                if(i == 0) current = head;
+
+                else current = head.next;
+            }
+
+            this.stop = stop;
+            this.stopper = true;
+            count= 0;
+            this.start = start;
         }
     
         public E next() {
@@ -53,11 +92,15 @@ public class LinkedList<E> {
 
             if(stopper && count < stop) {
 
-                current = current.next; // move the cursor forward
-                count++;
+                if(step>0) step(current);
+                else{
+                    current = current.next;
+                    count++;
+                }
             }
             else if(!stopper){
-                current = current.next;
+                if(step > 0) step(current);
+                else current = current.next;
             }
             else{
                 return null;
@@ -66,8 +109,20 @@ public class LinkedList<E> {
       
             return current.value ;
         }
+
+        private void step(Elem<E> current){
+            for(int i = 0; i < step; i++){
+                if(stopper && count == stop) break;
+
+                current = current.next;
+                count++;
+            }
+        }
     
         public boolean hasNext() {
+            if(stopper){
+                return !(count == stop);
+            }
             return current.next != head;
         }
     
