@@ -6,7 +6,7 @@ import java.util.Arrays;
 public class myTester {
 
     public static void main(String[] args) {
-        LinearFrequencyTable l = new LinearFrequencyTable();
+        /*LinearFrequencyTable l = new LinearFrequencyTable();
         l.init("tbee");
         l.init("Jesus");
         l.init("Family");
@@ -26,6 +26,22 @@ public class myTester {
         System.out.println(l);
         System.out.println(keys.size());
         System.out.println(keys);
-        System.out.println(Arrays.toString(vals));
+        System.out.println(Arrays.toString(vals));*/
+
+        LinkedStack<String> s;
+        s = new LinkedStack<String>();
+
+        s.push("a");
+        s.push("b");
+        s.push("c");
+        s.push("d");
+        s.push("e");
+
+        System.out.println(s);
+
+        s.roll();
+        s.roll();
+
+        System.out.println(s);
     }
 }

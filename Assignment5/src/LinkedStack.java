@@ -22,6 +22,8 @@ public class LinkedStack<E> implements Stack<E> {
     // Reference to the top element
     
     private Elem<E> top;
+    private Elem<E> rollTop;
+    private boolean rolled = false;
 
     /** Returns <code>true</code> if this stack is empty, and
      * <code>false</code> otherwise.
@@ -79,9 +81,35 @@ public class LinkedStack<E> implements Stack<E> {
      * the bottom of the stack.
      */
 
-    public void roll() {
+    public void unroll() {
 
-	throw new UnsupportedOperationException("IMPLEMENT THIS METHOD");
+	    //throw new UnsupportedOperationException("IMPLEMENT THIS METHOD");
+
+
+        if(top == null){
+            return;
+        }
+        else if(top.next == null){
+            return;
+        }
+        if(rollTop == null){
+            rollTop = top;
+        }
+        else if(rollTop.next.next == null){
+            E val = rollTop.next.value;
+            rollTop.next = null;
+            top = new Elem<E>(val, top);
+            rollTop = null;
+
+
+            return;
+        }
+        else {
+            rollTop = rollTop.next;
+
+        }
+
+        unroll();
 
     }
 
@@ -89,11 +117,37 @@ public class LinkedStack<E> implements Stack<E> {
      * top of the stack.
      */
 
-    public void unroll() {
+    public void roll() {
 
-	throw new UnsupportedOperationException("IMPLEMENT THIS METHOD");
+
+        if(top == null){
+            return;
+        }
+        else if(top.next == null){
+            return;
+        }
+        if(rollTop == null){
+            rollTop = top;
+        }
+        else if(rollTop.next == null){
+            rollTop.next = new Elem<E>(top.value, null);
+            top = top.next;
+            rollTop = null;
+
+
+            return;
+        }
+        else {
+            rollTop = rollTop.next;
+
+        }
+        //System.out.println(ToString(rollTop));
+
+        roll();
 	
     }
+
+
 
     /** Returns a string representation of the stack.
      *
@@ -115,6 +169,23 @@ public class LinkedStack<E> implements Stack<E> {
 	stackStr.append("}");
 
 	return stackStr.toString();
+    }
+
+     public String ToString(Elem<E> s) {
+        StringBuffer stackStr = new StringBuffer("{");
+
+        Elem<E> current = s;
+
+        while (current != null) {
+            stackStr.append(current.value);
+            if (current.next != null) {
+                stackStr.append(",");
+            }
+            current = current.next;
+        }
+        stackStr.append("}");
+
+        return stackStr.toString();
     }
     
 }

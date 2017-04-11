@@ -174,7 +174,7 @@ public class LinkedList<E> {
 
     public Iterator<E> iterator(int start, int stop) {
 
-	throw new UnsupportedOperationException("IMPLEMENT THIS METHOD");
+        return new LinkedListIterator(start, stop);
 	
     }
 
