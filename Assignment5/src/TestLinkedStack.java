@@ -7,7 +7,7 @@ public class TestLinkedStack {
 
     public static void main(String[] args) {
 
-	//StudentInfo.display();
+	StudentInfo.display();
 
 	LinkedStack<Integer> s;
 

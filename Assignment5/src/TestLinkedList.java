@@ -7,7 +7,7 @@ public class TestLinkedList {
 
     public static void main(String[] args) {
 
-	//StudentInfo.display();
+	StudentInfo.display();
 
 	LinkedList<Integer> xs;
 	final int MAX_SIZE = 5;
